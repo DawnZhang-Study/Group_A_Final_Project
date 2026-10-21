@@ -154,12 +154,85 @@ class Mountain{
     }
 
 }
-class CLoud{
 
+class Cloud{
+    constructor(xPos,yPos,speedRatio = 0.01) {
+        this.cloudPoints = [];
+        this.centerX = xPos;
+        this.centerY = yPos;
+        this.speedRatio = speedRatio;
+        this.moveSpeed = 0;
+
+        this.noiseOffsetX = random(10000);
+        this.noiseOffsetY = random(10000);
+
+
+        for (let angle = 0; angle < TWO_PI; angle += 0.1) {
+            let noiseValue = noise( this.noiseOffsetX + cos ( angle ) * 2, this.noiseOffsetY + sin ( angle ) * 2)
+
+            let radius = 60 + 60 * noiseValue;
+
+            let x = cos(angle) * radius * 1.5;
+            let y = sin(angle) * radius * 0.45;
+
+            this.cloudPoints.push({ x, y }); // Add the center point of the cloud
+        }
+    }
+
+    drawCloud() {
+        push();
+
+        translate(this.centerX,this.centerY);
+
+        fill(229, 240, 255);
+        noStroke();
+
+        beginShape();
+
+        for(let point of this.cloudPoints){
+            vertex(point.x,point.y);
+        }
+
+        endShape(CLOSE);
+        pop();
+    }
+
+    static moveClouds(clouds,trainSpeed, dt, sceneWidth,cloudSlotWidth) {
+        if (clouds.length == 0 || cloudSlotWidth <= 0) {
+            return;
+        }
+
+        const edgePadding = 300;
+
+        // 1 Move each cloud based on the train speed and delta time
+        for (let i = 0; i < clouds.length; i++) {
+        const cloud = clouds[i];
+
+        cloud.moveSpeed = trainSpeed * cloud.speedRatio;
+        cloud.centerX -= cloud.moveSpeed * dt;
+        } 
+
+        // 2 Remove clouds that have moved off the left side of the screen
+        while ( clouds[clouds.length - 1].centerX < sceneWidth + edgePadding ) {
+            const lastCloud = clouds[clouds.length - 1];
+            const newXPos = lastCloud.centerX + cloudSlotWidth;
+
+            clouds.push(
+            new Cloud(newXPos,lastCloud.centerY ,lastCloud.speedRatio)
+            );
+        }
+
+        // 3 Remove clouds that have moved off the right side of the screen
+        while (clouds.length > 1 && clouds[0].centerX < -edgePadding) {
+            clouds.shift();
+        }
+    }
 }
+
 class House{
 
 }
+
 class Bird{
 
 }
