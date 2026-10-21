@@ -85,7 +85,73 @@ class Tree{
     }
 
 }
+
 class Mountain{
+    constructor(speedRatio = 0.15){
+        this.mountainVertexArray = [];
+
+        this.mountainVertexCount = 120; // Number of vertices for the mountain shape
+        this.mountainPerlinNoiseStep = 0.04; // Step size for Perlin noise sampling
+
+        this.noiseOffset = random(10000); // Random offset for Perlin noise
+        this.noiseIndex = 0; // Index for Perlin noise sampling
+
+        this.speedRatio = speedRatio; // Speed ratio for parallax effect
+        this.moveSpeed = 0; // Speed at which the mountain moves
+
+        this.mountainOffset = 0; //mountain left offset position
+
+        for (let i = 0; i <= this.mountainVertexCount; i++) {
+            this.addMountainVertex();
+        }
+    }
+
+    addMountainVertex() {
+        // Sample Perlin noise to get a value between 0 and 1
+        const noiseValue = noise(this.noiseOffset + this.noiseIndex * this.mountainPerlinNoiseStep);
+        this.mountainVertexArray.push(noiseValue);// Add the noise value to the mountain vertex array
+        this.noiseIndex++;
+    }
+
+    drawMountain(sceneWidth, sceneHeight) {
+        const mountainSlotWidth = sceneWidth / (this.mountainVertexCount - 1);
+        
+        push();
+
+        fill(90,130,100);
+        noStroke();
+
+        beginShape();
+        vertex(0, sceneHeight * 0.7); // Start from the bottom left corner
+
+        for (let i = 0;i <this.mountainVertexArray.length; i++) {
+            const x = i * mountainSlotWidth - this.mountainOffset;
+            const y = map(this.mountainVertexArray[i], 0, 1, sceneHeight * 0.15, sceneHeight * 0.5);
+            vertex(x, y);
+        }
+
+        vertex(sceneWidth, sceneHeight * 0.7);
+        endShape(CLOSE);
+        
+        pop();
+    }
+
+    moveMountain(trainSpeed, dt, sceneWidth){ 
+        if(sceneWidth <= 0){
+            return;
+        }
+        const mountainSlotWidth = sceneWidth / ( this.mountainVertexCount-1 );
+
+        this.moveSpeed = trainSpeed * this.speedRatio;
+        this.mountainOffset += this.moveSpeed * dt;
+
+        while (this.mountainOffset >= mountainSlotWidth) {
+            this.mountainOffset -= mountainSlotWidth;
+
+            this.mountainVertexArray.shift();
+            this.addMountainVertex();
+        }
+    }
 
 }
 class CLoud{
