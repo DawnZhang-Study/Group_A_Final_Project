@@ -1,4 +1,5 @@
 let trainWindow;
+let bird;
 
 let trainSpeed = 500; // Speed of the train in pixels per second
 
@@ -26,6 +27,11 @@ function setup() {
   );
 
   const sceneWidth = width * sceneScaleWindowWidth;// Calculate the width of the scene based on the window width and scale factor
+
+  bird = new TimeBird(
+  sceneWidth * 0.5,
+  height * sceneScaleWindowHeight * 0.4
+  );
 
   // Create multiple tree instances
   for (let i = 0; i < initialTreeCount; i++) {
@@ -56,6 +62,8 @@ function draw() {
   drawFarScene(sceneWidth, sceneHeight,dt);
   drawMiddleScene(sceneWidth, sceneHeight,dt);
   drawNearScene(sceneWidth, sceneHeight);
+
+  bird.display();
   });
 }
 
@@ -171,4 +179,14 @@ function drawNearScene(sceneWidth, sceneHeight) {
 // Function to handle window resizing
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+// S stops the train; R makes it move again.
+// Replace with the team's user-input controls during integration.
+function keyPressed() {
+  if (key === "s" || key === "S") {
+    trainSpeed = 0;
+  } else if (key === "r" || key === "R") {
+    trainSpeed = 500;
+  }
 }
