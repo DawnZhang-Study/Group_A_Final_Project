@@ -27,11 +27,15 @@ function setup() {
   );
 
   const sceneWidth = width * sceneScaleWindowWidth;// Calculate the width of the scene based on the window width and scale factor
-
+  
+  // Run the counting function about every 100 milliseconds.
+  setInterval(countEventTime, 100);
+  // The starting point of the bird
+  // Start from outside of the window; Hides while waiting, and only appears inside the window after flying in.
   bird = new TimeBird(
-  sceneWidth * 0.5,
+  -20,
   height * sceneScaleWindowHeight * 0.4
-  );
+);
 
   // Create multiple tree instances
   for (let i = 0; i < initialTreeCount; i++) {
@@ -64,7 +68,7 @@ function draw() {
   drawNearScene(sceneWidth, sceneHeight);
   
   // Move towards a temporary target at 70% of the window width.
-  bird.update(dt, sceneWidth * 0.7);
+  bird.update(dt, sceneWidth * 0.7, trainSpeed);
   // Draw the bird at its updated position.
   bird.display();
   });
