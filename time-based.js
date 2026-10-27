@@ -15,14 +15,6 @@ class TimeBird {
   if (trainSpeed > 0) {
       this.reset();
     }
-    
-    // Start flying after about two seconds.
-    else if (this.state === "waiting") {
-      if (this.stageTicks >= 20) {
-        this.state = "flyingIn";
-        this.stageTicks = 0;
-      }
-    }
 
     // Start flying after about two seconds.
     else if (this.state === "waiting") {
