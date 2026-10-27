@@ -62,7 +62,10 @@ function draw() {
   drawFarScene(sceneWidth, sceneHeight,dt);
   drawMiddleScene(sceneWidth, sceneHeight,dt);
   drawNearScene(sceneWidth, sceneHeight);
-
+  
+  // Move towards a temporary target at 70% of the window width.
+  bird.update(dt, sceneWidth * 0.7);
+  // Draw the bird at its updated position.
   bird.display();
   });
 }
