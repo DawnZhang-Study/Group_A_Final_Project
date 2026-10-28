@@ -12,3 +12,13 @@ const INPUT_PANEL_HEIGHT = 120;
 const SPEED_SCALE = 10;
 
 
+// Create the controls once
+function setupInputControls(){
+    const inputPanel = createDiv();
+    inputPanel.class("speed-controls");
+
+    speedLabel = createP();
+    speedLabel.parent(inputPanel);
+    speedLabel.class("speed-label");
+    
+}
