@@ -59,3 +59,16 @@ function handleInputKey(){
 
     return false;
 }
+
+
+// Update the shared speed and the interface together
+// value means the interface value: 0-100
+function setTrainSpeed(value) {
+    speedValue = constrain(Number(value), 0, 100);
+
+    trainSpeed = speedValue * SPEED_SCALE;
+
+    speedSlider = speedValue(speedValue);
+
+    speedLabel.html("Speed: " + speedValue + / 100");
+}
