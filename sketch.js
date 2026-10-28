@@ -18,7 +18,12 @@ const sceneScaleWindowHeight = 0.9; // Scale factor for the height of the scene 
 const trainWindowCornorRadius = 30; // Corner radius for the train window
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(
+    windowWidth,
+    max(180, windowHeight - INPUT_PANEL_HEIGHT)
+  );
+
+  setupInputControls();
 
   trainWindow = new TrainWindow(      // Create a new instance of the TrainWindow class
   sceneScaleWindowWidth,
@@ -185,7 +190,10 @@ function drawNearScene(sceneWidth, sceneHeight) {
 
 // Function to handle window resizing
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(
+    windowWidth, 
+    max(180, windowHeight - INPUT_PANEL_HEIGHT)
+  );
 }
 
 // S stops the train; R makes it move again.

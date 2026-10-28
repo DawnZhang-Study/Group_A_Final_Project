@@ -40,7 +40,7 @@ function setupInputControls(){
 
 // Handle keyboard input
 function handleInputKey(){
-    let nextSpeed = speedValue:
+    let nextSpeed = speedValue;
 
     if (keyCode === LEFT_ARROW) {
         nextSpeed -= 5;
