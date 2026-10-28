@@ -1,5 +1,5 @@
 // Interface objects
-let speedSliders;
+let speedSlider;
 let speedLabel
 
 // Speed shown to the viewer: 0-100
@@ -20,5 +20,19 @@ function setupInputControls(){
     speedLabel = createP();
     speedLabel.parent(inputPanel);
     speedLabel.class("speed-label");
-    
+
+    speedSlider = createSlider(0, 100, speedValue, 1);
+    speedSlider.parent(inputPanel);
+    speedSlider.attribute("aria-label", "Train speed");
+
+    speedSlider.input(handleSliderInput);
+
+    const controlsHelp = createP(
+        "Drag slider | Left/Right: -5/+5 | Space: stop"
+    );
+
+    controlsHelp.parent(inputPanel);
+    controlsHelp.class("speed-help");
+
+    setTrainSpeed(speedValue);
 }
