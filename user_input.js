@@ -37,6 +37,12 @@ function setupInputControls(){
     setTrainSpeed(speedValue);
 }
 
+// Handle mouse input from the slider
+function handleSliderInput(){
+    const newSpeed = speedSlider.value();
+    setTrainSpeed(newSpeed);
+}
+
 
 // Handle keyboard input
 function handleInputKey(){
