@@ -36,3 +36,26 @@ function setupInputControls(){
 
     setTrainSpeed(speedValue);
 }
+
+
+// Handle keyboard input
+function handleInputKey(){
+    let nextSpeed = speedValue:
+
+    if (keyCode === LEFT_ARROW) {
+        nextSpeed -= 5;
+
+    } else if (keyCode === RIGHT_ARROW) {
+        nextSpeed += 5;
+
+    } else if (keyCode === 32) {
+        nextSpeed = 0;
+
+    } else {
+        return;
+    }
+
+    setTrainSpeed(nextSpeed);
+
+    return false;
+}
