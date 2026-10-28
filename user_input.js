@@ -70,5 +70,5 @@ function setTrainSpeed(value) {
 
     speedSlider.value(speedValue);
 
-    speedLabel.html("Speed: " + speedValue + / 100");
+    speedLabel.html("Speed: " + speedValue + " / 100");
 }
