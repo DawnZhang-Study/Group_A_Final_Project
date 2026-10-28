@@ -196,12 +196,10 @@ function windowResized() {
   );
 }
 
-// S stops the train; R makes it move again.
-// Replace with the team's user-input controls during integration.
+
+// User-input controls: Left/Right arrows adjust speed by 5
+// Space sets the speed to 0 and stops the train
+// Input handling and speed conversion are in user_input.js
 function keyPressed() {
-  if (key === "s" || key === "S") {
-    trainSpeed = 0;
-  } else if (key === "r" || key === "R") {
-    trainSpeed = 500;
-  }
+  return handleInputKey();
 }
