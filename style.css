@@ -1,8 +1,36 @@
 html, body {
   margin: 0;
   padding: 0;
+  background:rgb(138, 103, 103);
+  font-family: Arial, sans-serif;
 }
 
 canvas {
   display: block;
+}
+
+.speed-controls{
+  height: 120px;
+  box-sizing: border-box;
+  padding: 12px 24px;
+  color: #fff8ee;
+  text-align: center;
+}
+
+.speed-label{
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.speed-controls input[type = "range"]{
+  display:block;
+  width:min(420px, 100%);
+  margin: 0 auto;
+  accent-color: #e4be7a;
+}
+
+.speed-help{
+  margin: 8px 0 0;
+  font-size: 13px;
 }
