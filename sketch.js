@@ -76,13 +76,55 @@ function draw() {
     drawMiddleScene(sceneWidth, sceneHeight,dt);
     drawNearScene(sceneWidth, sceneHeight);
   
-    // Use a temporary flight height and t  arget.
-    bird.y = sceneHeight * 0.4;
-  
-    // Fly to the tree and draw the bird.
-    bird.update(dt, sceneWidth * 0.7, trainSpeed, sceneWidth);
-    // Draw the bird at its updated position.
-    bird.display();
+    if (trainSpeed > 0) {
+      // Reset the bird and clear the previous target.
+      bird.reset();
+      birdLandingTarget = null;
+    } else {
+      // Choose a target once for this stop.
+      if (birdLandingTarget === null) {
+        const landingTree = bird.getBirdLandingTree(
+          trees,
+          sceneWidth,
+          birdLandingTreeFromRight
+        );
+
+        if (landingTree !== null) {
+          const landingPoints = landingTree.getBirdLandPlacePoint(
+            birdLandingPointCount
+          );
+
+          // Choose a point safely inside the window.
+          for (let i = 0; i < landingPoints.length; i++) {
+            const point = landingPoints[i];
+
+            if (
+              point.x > 25 &&
+              point.x < sceneWidth - 25 &&
+              point.y > 25 &&
+              point.y < sceneHeight - 12
+            ) {
+              birdLandingTarget = point;
+              break;
+            }
+          }
+        }
+      }
+
+      // Use the saved target for the bird event.
+      if (birdLandingTarget !== null) {
+        bird.y = birdLandingTarget.y - 8;
+
+        bird.update(
+          dt,
+          birdLandingTarget.x,
+          trainSpeed,
+          sceneWidth
+        );
+
+        bird.display();
+      }
+    }
   });
 }
 
