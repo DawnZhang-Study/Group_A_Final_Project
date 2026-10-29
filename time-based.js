@@ -8,6 +8,10 @@ class TimeBird {
 
     this.state = "waiting";
     this.stageTicks = 0;
+
+    // Wing position and movement direction.
+    this.wingY = -16;
+    this.wingSpeed = 2;
   } 
  
     update(dt, targetX, trainSpeed, sceneWidth) {
@@ -56,8 +60,8 @@ class TimeBird {
 
   display() {
     // Hide the bird before and after the event.
-if (this.state === "waiting" || this.state === "finished") {
-  return;
+     if (this.state === "waiting" || this.state === "finished") {
+     return;
 }
 
     push();
@@ -67,6 +71,23 @@ if (this.state === "waiting" || this.state === "finished") {
     // Body.
   fill(60);
   ellipse(0, 0, 24, 16);
+
+  // Flap the wing during flight.
+  if (this.state === "flyingIn" || this.state === "flyingOut") {
+    this.wingY += this.wingSpeed;
+
+  // Change direction at the upper and lower limits.
+  if (this.wingY >= 12 || this.wingY <= -16) {
+    this.wingSpeed = -this.wingSpeed;
+  }
+
+  fill(90);
+  triangle(-7, 0, 6, 0, -4, this.wingY);
+} else {
+  // Fold the wing while resting.
+  fill(90);
+  ellipse(-2, 0, 14, 8);
+}
 
   // Head.
   circle(10, -7, 12);
@@ -90,6 +111,8 @@ if (this.state === "waiting" || this.state === "finished") {
     this.state = "waiting";
     this.stageTicks = 0;
     this.x = -this.size;
+    this.wingY = -16;
+    this.wingSpeed = 2;
   }
 }
 
