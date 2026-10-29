@@ -61,10 +61,28 @@ if (this.state === "waiting" || this.state === "finished") {
 }
 
     push();
+    translate(this.x, this.y);
     noStroke();
-    fill(60);
-    circle(this.x, this.y, this.size);
-    pop();
+
+    // Body.
+  fill(60);
+  ellipse(0, 0, 24, 16);
+
+  // Head.
+  circle(10, -7, 12);
+
+  // Tail.
+  triangle(-9, -2, -20, -8, -17, 5);
+
+  // Beak.
+  fill(190, 140, 65);
+  triangle(15, -9, 22, -6, 15, -4);
+
+  // Eye.
+  fill(255);
+  circle(12, -9, 3);
+
+  pop();
   }
 
   reset() {
