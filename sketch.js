@@ -1,4 +1,5 @@
 let trainWindow;
+let audioMechanic;
 
 let birds = [];
 let birdLandingTreeFromRight = 2; //from right to left
@@ -28,6 +29,12 @@ function setup() {
   );
 
   setupInputControls();
+
+  audioMechanic = new AudioMechanic(
+    insideTrainSound,
+    birdChirpingSound,
+    100 * SPEED_SCALE
+  );
 
   trainWindow = new TrainWindow(      // Create a new instance of the TrainWindow class
   sceneScaleWindowWidth,
@@ -74,6 +81,8 @@ function draw() {
   background(138, 103, 103);
 
   const dt = Math.min(deltaTime / 1000, 0.05);
+
+  audioMechanic.updateTrainAudio(trainSpeed, birds);
 
   // Draw the scene inside the train window
   trainWindow.drawTrainWindow((sceneWidth, sceneHeight) => {
