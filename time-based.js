@@ -10,7 +10,7 @@ class TimeBird {
     this.stageTicks = 0;
   } 
  
-    update(dt, targetX, trainSpeed) {
+    update(dt, targetX, trainSpeed, sceneWidth) {
   // Reset the bird while the train is moving.       
   if (trainSpeed > 0) {
       this.reset();
@@ -35,13 +35,30 @@ class TimeBird {
         this.stageTicks = 0;
       }
     }
+
+    // Rest for about three seconds after arrival.
+     else if (this.state === "perching") {
+      if (this.stageTicks >= 30) {
+         this.state = "flyingOut";
+         this.stageTicks = 0;
+    }
   }
 
-  display() {
-    // Keep the bird hidden while waiting.
-    if (this.state === "waiting") {
-      return;
+ // Fly out of the window.
+     else if (this.state === "flyingOut") {
+         this.x += this.speed * dt;
+
+     if (this.x > sceneWidth + this.size) {
+         this.state = "finished";
     }
+  }
+}
+
+  display() {
+    // Hide the bird before and after the event.
+if (this.state === "waiting" || this.state === "finished") {
+  return;
+}
 
     push();
     noStroke();
@@ -58,9 +75,12 @@ class TimeBird {
   }
 }
 
-// Called by the timer about every 100 milliseconds.
+// Called about every 100 milliseconds.
 function countEventTime() {
-  if (trainSpeed === 0 && bird.state === "waiting") {
-    bird.stageTicks++;
+  if (trainSpeed === 0) {
+    // Count during waiting or resting.
+    if (bird.state === "waiting" || bird.state === "perching") {
+      bird.stageTicks++;
+    }
   }
 }
