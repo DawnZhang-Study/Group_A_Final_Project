@@ -1,6 +1,7 @@
 // This class stores one bird's position and draws a simple placeholder.
 class TimeBird {
-  constructor(x, y) {
+// waitTicks = 20: When not specified otherwise, it defaults to waiting for 20 counts, approximately two seconds.
+ constructor(x, y, waitTicks = 20) {
     this.x = x;
     this.y = y;
     this.size = 18;
@@ -8,6 +9,8 @@ class TimeBird {
 
     this.state = "waiting";
     this.stageTicks = 0;
+    // Waiting time before this bird starts flying.
+    this.waitTicks = waitTicks;
 
     // Wing position and movement direction.
     this.wingY = -16;
@@ -56,7 +59,7 @@ class TimeBird {
 
     // Start flying after about two seconds.
     else if (this.state === "waiting") {
-      if (this.stageTicks >= 20) {
+      if (this.stageTicks >= this.waitTicks) {
         this.state = "flyingIn";
         this.stageTicks = 0;
       }
@@ -150,12 +153,16 @@ class TimeBird {
   }
 }
 
-// Called about every 100 milliseconds.
+// Count waiting and resting time for each bird.
 function countEventTime() {
   if (trainSpeed === 0) {
-    // Count during waiting or resting.
-    if (bird.state === "waiting" || bird.state === "perching") {
-      bird.stageTicks++;
+    for (let i = 0; i < birds.length; i++) {
+      if (
+        birds[i].state === "waiting" ||
+        birds[i].state === "perching"
+      ) {
+        birds[i].stageTicks++;
+      }
     }
   }
 }

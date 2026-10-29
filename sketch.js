@@ -1,9 +1,9 @@
 let trainWindow;
 
-let bird;
+let birds = [];
 let birdLandingTreeFromRight = 2; //from right to left
 let birdLandingPointCount = 3;// set the landing count
-let birdLandingTarget = null;
+let birdLandingTargets = [];
 
 let trainSpeed = 500; // Speed of the train in pixels per second
 
@@ -41,10 +41,16 @@ function setup() {
   setInterval(countEventTime, 100);
   // The starting point of the bird
   // Start from outside of the window; Hides while waiting, and only appears inside the window after flying in.
-  bird = new TimeBird(
-  -20,
-  height * sceneScaleWindowHeight * 0.4
-);
+  // Create three birds with different waiting times.
+   for (let i = 0; i < 3; i++) {
+     birds.push(
+      new TimeBird(
+        -20,
+        height * sceneScaleWindowHeight * 0.4,
+        20 + i * 10
+      )
+    );
+  }
 
   // Create multiple tree instances
   for (let i = 0; i < initialTreeCount; i++) {
@@ -77,13 +83,16 @@ function draw() {
     drawNearScene(sceneWidth, sceneHeight);
   
     if (trainSpeed > 0) {
-      // Reset the bird and clear the previous target.
-      bird.reset();
-      birdLandingTarget = null;
+      // Reset all birds when the train moves.
+      for (let i = 0; i < birds.length; i++) {
+        birds[i].reset();
+      }
+
+      birdLandingTargets = [];
     } else {
-      // Choose a target once for this stop.
-      if (birdLandingTarget === null) {
-        const landingTree = bird.getBirdLandingTree(
+      // Choose landing positions once for this stop.
+      if (birdLandingTargets.length === 0) {
+        const landingTree = birds[0].getBirdLandingTree(
           trees,
           sceneWidth,
           birdLandingTreeFromRight
@@ -94,35 +103,38 @@ function draw() {
             birdLandingPointCount
           );
 
-          // Choose a point safely inside the window.
           for (let i = 0; i < landingPoints.length; i++) {
             const point = landingPoints[i];
 
+            // Keep landing positions inside the window.
             if (
               point.x > 25 &&
               point.x < sceneWidth - 25 &&
               point.y > 25 &&
               point.y < sceneHeight - 12
             ) {
-              birdLandingTarget = point;
-              break;
+              birdLandingTargets.push(point);
             }
           }
         }
       }
 
-      // Use the saved target for the bird event.
-      if (birdLandingTarget !== null) {
-        bird.y = birdLandingTarget.y - 8;
+      // Match each bird with one landing position.
+      for (let i = 0; i < birds.length; i++) {
+        if (i < birdLandingTargets.length) {
+          const target = birdLandingTargets[i];
 
-        bird.update(
-          dt,
-          birdLandingTarget.x,
-          trainSpeed,
-          sceneWidth
-        );
+          birds[i].y = target.y - 8;
 
-        bird.display();
+          birds[i].update(
+            dt,
+            target.x,
+            trainSpeed,
+            sceneWidth
+          );
+
+          birds[i].display();
+        }
       }
     }
   });
