@@ -1,5 +1,9 @@
 let trainWindow;
+
 let bird;
+let birdLandingTreeFromRight = 2; //from right to left
+let birdLandingPointCount = 3;// set the landing count
+let birdLandingTarget = null;
 
 let trainSpeed = 500; // Speed of the train in pixels per second
 
@@ -67,17 +71,17 @@ function draw() {
 
   // Draw the scene inside the train window
   trainWindow.drawTrainWindow((sceneWidth, sceneHeight) => {
-  drawCloudScene(sceneWidth, sceneHeight,dt);
-  drawFarScene(sceneWidth, sceneHeight,dt);
-  drawMiddleScene(sceneWidth, sceneHeight,dt);
-  drawNearScene(sceneWidth, sceneHeight);
+    drawCloudScene(sceneWidth, sceneHeight,dt);
+    drawFarScene(sceneWidth, sceneHeight,dt);
+    drawMiddleScene(sceneWidth, sceneHeight,dt);
+    drawNearScene(sceneWidth, sceneHeight);
   
-  // Use a temporary flight height and target.
+    // Use a temporary flight height and t  arget.
     bird.y = sceneHeight * 0.4;
   
-  // Fly to the tree and draw the bird.
+    // Fly to the tree and draw the bird.
     bird.update(dt, sceneWidth * 0.7, trainSpeed, sceneWidth);
-  // Draw the bird at its updated position.
+    // Draw the bird at its updated position.
     bird.display();
   });
 }

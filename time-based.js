@@ -13,6 +13,40 @@ class TimeBird {
     this.wingY = -16;
     this.wingSpeed = 2;
   } 
+  
+  getBirdLandingTree(trees, sceneWidth, treeFromRight) {
+    // Require a positive integer.
+    if (!Number.isInteger(treeFromRight) || treeFromRight < 1) {
+        return null;
+    }
+
+    const visibleTrees = trees.filter(tree => {
+        // Read the branch positions recorded during drawing.
+        const points = Object.values(tree.branchPoints);
+
+        if (points.length === 0) {
+            return false;
+        }
+
+        // Find the horizontal bounds of the whole tree.
+        const xs = points.map(point => point.x);
+        const left = Math.min(tree.xPos, ...xs);
+        const right = Math.max(tree.xPos, ...xs);
+
+        // Count trees that extend into the window.
+        return right > 0 && left < sceneWidth;
+    });
+
+    // Sort from left to right.
+    visibleTrees.sort((a, b) => a.xPos - b.xPos);
+
+    if (visibleTrees.length < treeFromRight) {
+        return null;
+    }
+
+    // Select the requested tree from the right.
+    return visibleTrees[visibleTrees.length - treeFromRight];
+  }
  
     update(dt, targetX, trainSpeed, sceneWidth) {
   // Reset the bird while the train is moving.       

@@ -10,21 +10,25 @@ class Tree{
     
         // noise offset for Perlin noise
         this.noiseOffset = random(10000);
+
+        //record the branchpoint for the bird landing.
+        this.branchPoints ={};
     }
 
-
     drawTree(x,y){
+
+        this.branchPoints = {};
 
         push();
         // Set the stroke color for the tree
         stroke(70, 50, 30);
         translate(x, y);
 
-        this.drawBranch(95,1);
+        this.drawBranch(95,1,1,x,y,0);
         pop();
     }
 
-    drawBranch(length, branchID){
+    drawBranch(length, branchID,level, startX, startY, totalAngle){
         // Base case: if the branch length is too small, stop drawing
         if (length < 10) {
             return;
@@ -35,6 +39,18 @@ class Tree{
         line(0, 0, 0, -length);
         translate(0, -length);
 
+        // Calculate the pisition
+        const endX = startX + length * sin(totalAngle);
+        const endY = startY - length * cos(totalAngle);
+
+        //Record the branchpoints ID
+        this.branchPoints[branchID] = {
+            branchID: branchID,
+            level: level,
+            x: endX,
+            y: endY
+        }
+
         // Use Perlin noise to determine the angle of the branches
         let noiseValue = noise(this.noiseOffset + branchID * 0.1);
         let angle = map(noiseValue, 0, 1, PI / 10, PI / 4);
@@ -43,17 +59,63 @@ class Tree{
         // Draw left branch
         push();
         rotate(-angle);
-        this.drawBranch(nextLength, branchID * 2);
+        this.drawBranch(
+            nextLength,
+            branchID * 2,
+            level + 1,
+            endX,
+            endY,
+            totalAngle - angle
+        );
         pop();
 
         // Draw right branch
         push();
         rotate(angle);
-        this.drawBranch(nextLength, branchID * 2 + 1);
+        this.drawBranch(
+            nextLength,
+            branchID * 2 + 1,
+            level + 1,
+            endX,
+            endY,
+            totalAngle + angle
+        );
         pop();
     }
 
-    static moveTrees(trees,trainSpeed, dt, sceneWidth,treeSlotWidth){
+    getBirdLandPlacePoint(count = 3){
+        if (!Number.isInteger(count) || count <= 0) {
+            return [];
+        }
+
+        const points = Object.values(this.branchPoints);
+        
+        if(points.length ==0){
+            return [];
+        }
+
+        const maxLevel = Math.max(
+            ...points.map(point => point.level));
+
+        const availablePoints = points.filter(point => 
+            point.level >= maxLevel - 3 && 
+            point.level <= maxLevel - 1 )
+
+        const selectedPoints = [];
+        const actualCount = Math.min(count, availablePoints.length);
+
+        for (let i = 0; i < actualCount; i++) {
+
+            const randomIndex = floor(random(availablePoints.length));
+
+            const selectedPoint = availablePoints.splice(randomIndex, 1)[0];
+
+            selectedPoints.push(selectedPoint);
+        }
+        return selectedPoints;
+    }
+
+    static moveTrees(trees,trainSpeed, dt, sceneWidth,treeSlotWidth){        
         if (trees.length == 0 || treeSlotWidth <= 0) {
             return;
         }
@@ -83,7 +145,6 @@ class Tree{
             trees.shift();
         }
     }
-
 }
 
 class Mountain{
