@@ -1,7 +1,6 @@
 let insideTrainSound;
 let birdChirpingSound;
 
-// Load both sound files before setup() runs.
 function preload() {
   insideTrainSound = loadSound("audio/inside-old-train.mp3");
   birdChirpingSound = loadSound("audio/natural-bird-chirping.mp3");
@@ -15,8 +14,6 @@ class AudioMechanic {
     this.audioEnabled = false;
   }
 
-  // Called by the existing slider and keyboard controls.
-  // This user interaction allows the browser to begin playing sound.
   startAudio(currentTrainSpeed) {
     this.audioEnabled = true;
 
@@ -40,8 +37,6 @@ class AudioMechanic {
         this.trainSound.setVolume(0.5);
       }
 
-      // Volume stays fixed. Speed only controls playback rate,
-      // making the train rhythm faster as the speed increases.
       let trainRate = map(speedRatio, 0, 1, 0.6, 1.8);
       this.trainSound.rate(trainRate);
     } else if (this.trainSound.isPlaying()) {
