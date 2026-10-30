@@ -11,6 +11,10 @@ class SpeedController {
     this.panel = null;
     this.slider = null;
     this.label = null;
+
+    this.keyRepeatDelay = 0.3;
+    this.keyRepeatInterval = 0.08;
+    this.keyRepeatTimer = this.keyRepeatDelay;
   }
 
   setup() {
@@ -61,6 +65,34 @@ class SpeedController {
     this.label.html("Speed: " + this.value + " / 100");
   }
 
+  updateHeldKeys(dt) {
+  const leftHeld = keyIsDown(LEFT_ARROW);
+  const rightHeld = keyIsDown(RIGHT_ARROW);
+
+  // Pause repeat if Space, neither arrow,
+  // or both arrows are held.
+  if (keyIsDown(32) || leftHeld === rightHeld) {
+    this.keyRepeatTimer = this.keyRepeatDelay;
+    return;
+  }
+
+  this.keyRepeatTimer -= dt;
+
+  if (this.keyRepeatTimer > 0) {
+    return;
+  }
+
+  if (leftHeld) {
+    this.setSpeed(this.value - 1);
+  } else {
+    this.setSpeed(this.value + 1);
+  }
+
+  this.keyRepeatTimer += this.keyRepeatInterval;
+
+  audioMechanic.startAudio(trainSpeed);
+}
+  
   handleKey() {
     let nextSpeed = this.value;
 
@@ -78,6 +110,8 @@ class SpeedController {
     }
 
     this.setSpeed(nextSpeed);
+
+    this.keyRepeatTimer = this.keyRepeatDelay;
 
     audioMechanic.startAudio(trainSpeed);
 

@@ -86,6 +86,8 @@ function draw() {
   background(138, 103, 103);
 
   const dt = Math.min(deltaTime / 1000, 0.05);
+  
+  speedController.updateHeldKeys(dt);
 
   speedBlur.update(trainSpeed, dt)
 
