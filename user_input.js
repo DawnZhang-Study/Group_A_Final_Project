@@ -28,7 +28,7 @@ function setupInputControls(){
     speedSlider.input(handleSliderInput);
 
     const controlsHelp = createP(
-        "Drag slider | Left/Right: -5/+5 | Space: stop"
+        "Drag slider | Left/Right: -1/+1 | Space: stop"
     );
 
     controlsHelp.parent(inputPanel);
@@ -50,10 +50,10 @@ function handleInputKey(){
     let nextSpeed = speedValue;
 
     if (keyCode === LEFT_ARROW) {
-        nextSpeed -= 5;
+        nextSpeed -= 1;
 
     } else if (keyCode === RIGHT_ARROW) {
-        nextSpeed += 5;
+        nextSpeed += 1;
 
     } else if (keyCode === 32) {
         nextSpeed = 0;
