@@ -2,7 +2,6 @@ let trainWindow;
 let audioMechanic;
 let speedBlur;
 
-
 let birds = [];
 let birdLandingTreeFromRight = 2; //from right to left
 let birdLandingPointCount = 3;// set the landing count
@@ -19,6 +18,9 @@ let mountain;
 let clouds =[];
 let cloudSlotWidth;
 const initialCloudCount = 4;
+
+let houses = [];
+const initialHouseCount = 3;
 
 const sceneScaleWindowWidth = 0.95; // Scale factor for the width of the scene relative to the window width
 const sceneScaleWindowHeight = 0.9; // Scale factor for the height of the scene relative to the window height
@@ -80,6 +82,28 @@ function setup() {
     clouds.push(new Cloud(x, height * sceneScaleWindowHeight * 0.15, 0.05))
   }
   cloudSlotWidth = sceneWidth/ clouds.length;
+
+
+  // Create multiple random house instances
+  const sceneHeight = height * sceneScaleWindowHeight;
+  const houseSlotWidth = sceneWidth / initialHouseCount;
+
+  for (let i = 0; i < initialHouseCount; i++) {
+
+    const houseWidth = random(100, 140);
+    const houseHeight = random(120, 170);
+
+    // Distribute houses across the scene with small random offsets
+    const x = (i + 0.5) * houseSlotWidth
+            - houseWidth / 2
+            + random(-20, 20);
+
+    const y = sceneHeight * 0.98;
+
+    houses.push(
+      new House(x, y, houseWidth, houseHeight)
+    );
+  }
 }
 
 function draw() {
@@ -254,7 +278,19 @@ function drawFarScene(sceneWidth, sceneHeight,dt) {
 
 function drawMiddleScene(sceneWidth, sceneHeight, dt) {
   // Draw the middle ground (e.g., trees)
+  // Move houses
+    House.moveHouses(
+        houses,
+        trainSpeed,
+        dt,
+        sceneWidth
+    );
 
+    // Draw houses
+    for (let i = 0; i < houses.length; i++) {
+        houses[i].drawHouse();
+    }
+    
   // Move the trees based on the train speed and delta time
   Tree.moveTrees(
     trees,
