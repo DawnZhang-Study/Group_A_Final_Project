@@ -25,9 +25,11 @@ canvas {
 
 .speed-controls input[type = "range"]{
   display:block;
-  width:min(420px, 100%);
+  width:min(520px, 75%);
+  height: 24px;
   margin: 0 auto;
   accent-color: #e4be7a;
+  transform: scale(1.25);
 }
 
 .speed-help{
