@@ -41,6 +41,7 @@ function setupInputControls(){
 function handleSliderInput(){
     const newSpeed = speedSlider.value();
     setTrainSpeed(newSpeed);
+    audioMechanic.startAudio(trainSpeed);
 }
 
 
@@ -62,6 +63,7 @@ function handleInputKey(){
     }
 
     setTrainSpeed(nextSpeed);
+    audioMechanic.startAudio(trainSpeed);
 
     return false;
 }

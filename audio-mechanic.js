@@ -12,56 +12,41 @@ class AudioMechanic {
     this.trainSound = trainSound;
     this.birdSound = birdSound;
     this.maximumTrainSpeed = maximumTrainSpeed;
-    this.audioButton = null;
+    this.audioEnabled = false;
   }
 
-  // The tutorial uses a button because browsers require user interaction
-  // before sound can begin.
-  setupButton() {
-    this.audioButton = createButton("Start Audio");
-    this.audioButton.mousePressed(toggleAudioButton);
-    this.positionButton();
-  }
+  // Called by the existing slider and keyboard controls.
+  // This user interaction allows the browser to begin playing sound.
+  startAudio(currentTrainSpeed) {
+    this.audioEnabled = true;
 
-  positionButton() {
-    if (this.audioButton !== null) {
-      this.audioButton.position(
-        (width - this.audioButton.width) / 2,
-        height + 88
-      );
-    }
-  }
-
-  toggleAudio() {
-    if (this.trainSound.isPlaying()) {
-      this.trainSound.stop();
-
-      if (this.birdSound.isPlaying()) {
-        this.birdSound.stop();
-      }
-
-      this.audioButton.html("Start Audio");
-    } else {
+    if (currentTrainSpeed > 0 && !this.trainSound.isPlaying()) {
       this.trainSound.loop();
-      this.audioButton.html("Stop Audio");
+      this.trainSound.setVolume(0.5);
     }
   }
 
   updateTrainAudio(currentTrainSpeed, currentBirds) {
-    // Do not update or start other sounds before the audio button is pressed.
-    if (!this.trainSound.isPlaying()) {
+    if (!this.audioEnabled) {
       return;
     }
 
     let speedRatio = currentTrainSpeed / this.maximumTrainSpeed;
     speedRatio = constrain(speedRatio, 0, 1);
 
-    // Faster speed produces a louder and quicker train sound.
-    let trainVolume = map(speedRatio, 0, 1, 0, 0.65);
-    let trainRate = map(speedRatio, 0, 1, 0.78, 1.22);
+    if (currentTrainSpeed > 0) {
+      if (!this.trainSound.isPlaying()) {
+        this.trainSound.loop();
+        this.trainSound.setVolume(0.5);
+      }
 
-    this.trainSound.setVolume(trainVolume);
-    this.trainSound.rate(trainRate);
+      // Volume stays fixed. Speed only controls playback rate,
+      // making the train rhythm faster as the speed increases.
+      let trainRate = map(speedRatio, 0, 1, 0.6, 1.8);
+      this.trainSound.rate(trainRate);
+    } else if (this.trainSound.isPlaying()) {
+      this.trainSound.stop();
+    }
 
     this.updateBirdAudio(currentTrainSpeed, currentBirds);
   }
@@ -88,9 +73,4 @@ class AudioMechanic {
       this.birdSound.stop();
     }
   }
-}
-
-// This named function is used by mousePressed(), as in the tutorial examples.
-function toggleAudioButton() {
-  audioMechanic.toggleAudio();
 }
