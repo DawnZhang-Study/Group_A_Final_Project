@@ -1,82 +1,202 @@
-// Interface objects
-let speedSlider;
-let speedLabel
-
-// Speed shown to the viewer: 0-100
-let speedValue = 50;
-
-// Space reserved below the canvas for the controls
 const INPUT_PANEL_HEIGHT = 120;
-
-// Convert the interface value to pixels per second
 const SPEED_SCALE = 10;
 
+let speedController;
 
-// Create the controls once
-function setupInputControls(){
-    const inputPanel = createDiv();
-    inputPanel.class("speed-controls");
 
-    speedLabel = createP();
-    speedLabel.parent(inputPanel);
-    speedLabel.class("speed-label");
+// Manage the slider, speed display and keyboard input.
+class SpeedController {
+  constructor(initialValue = 50) {
+    this.value = initialValue;
+    this.panel = null;
+    this.slider = null;
+    this.label = null;
+  }
 
-    speedSlider = createSlider(0, 100, speedValue, 1);
-    speedSlider.parent(inputPanel);
-    speedSlider.attribute("aria-label", "Train speed");
+  setup() {
+    this.panel = createDiv();
+    this.panel.class("speed-controls");
 
-    speedSlider.input(handleSliderInput);
+    this.label = createP();
+    this.label.parent(this.panel);
+    this.label.class("speed-label");
 
-    const controlsHelp = createP(
-        "Drag slider | Left/Right: -1/+1 | Space: stop"
+    this.slider = createSlider(0, 100, this.value, 1);
+    this.slider.parent(this.panel);
+    this.slider.attribute("aria-label", "Train speed");
+
+    this.slider.input(() => this.handleSliderInput());
+
+    const help = createP(
+      "Drag the slider. Left: -1. Right: +1. Space: stop."
     );
 
-    controlsHelp.parent(inputPanel);
-    controlsHelp.class("speed-help");
+    help.parent(this.panel);
+    help.class("speed-help");
 
-    setTrainSpeed(speedValue);
-}
+    this.setSpeed(this.value);
+  }
 
-// Handle mouse input from the slider
-function handleSliderInput(){
-    const newSpeed = speedSlider.value();
-    setTrainSpeed(newSpeed);
+  handleSliderInput() {
+    const newSpeed = this.slider.value();
+
+    this.setSpeed(newSpeed);
+
     audioMechanic.startAudio(trainSpeed);
-}
+  }
 
+  setSpeed(value) {
+    const nextValue = Number(value);
 
-// Handle keyboard input
-function handleInputKey(){
-    let nextSpeed = speedValue;
-
-    if (keyCode === LEFT_ARROW) {
-        nextSpeed -= 1;
-
-    } else if (keyCode === RIGHT_ARROW) {
-        nextSpeed += 1;
-
-    } else if (keyCode === 32) {
-        nextSpeed = 0;
-
-    } else {
-        return;
+    if (!Number.isFinite(nextValue)) {
+      return;
     }
 
-    setTrainSpeed(nextSpeed);
+    this.value = constrain(Math.round(nextValue), 0, 100);
+
+    trainSpeed = this.value * SPEED_SCALE;
+
+    this.slider.value(this.value);
+
+    this.label.html("Speed: " + this.value + " / 100");
+  }
+
+  handleKey() {
+    let nextSpeed = this.value;
+
+    if (keyCode === LEFT_ARROW) {
+      nextSpeed -= 1;
+
+    } else if (keyCode === RIGHT_ARROW) {
+      nextSpeed += 1;
+
+    } else if (keyCode === 32) {
+      nextSpeed = 0;
+
+    } else {
+      return;
+    }
+
+    this.setSpeed(nextSpeed);
+
     audioMechanic.startAudio(trainSpeed);
 
     return false;
+  }
 }
 
 
-// Update the shared speed and the interface together
-// value means the interface value: 0-100
+// Connect the input controller to sketch.js.
+function setupInputControls() {
+  speedController = new SpeedController(50);
+  speedController.setup();
+}
+
+function handleInputKey() {
+  return speedController.handleKey();
+}
+
 function setTrainSpeed(value) {
-    speedValue = constrain(Number(value), 0, 100);
+  speedController.setSpeed(value);
+}
 
-    trainSpeed = speedValue * SPEED_SCALE;
 
-    speedSlider.value(speedValue);
+// Manage speed-based blur inside the train window.
+class SpeedBlur {
+  constructor(maximumTrainSpeed = 1000) {
+    this.maximumTrainSpeed = maximumTrainSpeed;
 
-    speedLabel.html("Speed: " + speedValue + " / 100");
+    this.maximumBlur = 6;
+    this.randomAmount = 0.08;
+
+    this.randomOffset = 0;
+    this.randomTarget = 0;
+    this.changeTimer = 0;
+
+    this.strength = 0;
+    this.renderScale = 0.5;
+  }
+
+  update(currentTrainSpeed, dt) {
+    const speedRatio = constrain(
+      currentTrainSpeed / this.maximumTrainSpeed,
+      0,
+      1
+    );
+
+    // Remove added blur when the train stops.
+    if (speedRatio === 0) {
+      this.strength = 0;
+      this.randomOffset = 0;
+      this.randomTarget = 0;
+      this.changeTimer = 0;
+
+      return;
+    }
+
+    // Occasionally choose a small random variation.
+    this.changeTimer -= dt;
+
+    if (this.changeTimer <= 0) {
+      this.randomTarget = random(
+        -this.randomAmount,
+        this.randomAmount
+      );
+
+      this.changeTimer = random(0.35, 0.75);
+    }
+
+    // Gradually approach the random target.
+    this.randomOffset = lerp(
+      this.randomOffset,
+      this.randomTarget,
+      constrain(dt * 4, 0, 1)
+    );
+
+    const baseBlur = speedRatio * this.maximumBlur;
+
+    this.strength = baseBlur * (1 + this.randomOffset);
+  }
+
+  apply(windowX, windowY, sceneWidth, sceneHeight) {
+    if (this.strength <= 0.05) {
+      return;
+    }
+
+    // Capture only the freshly drawn window interior.
+    const sceneImage = get(
+      windowX,
+      windowY,
+      sceneWidth,
+      sceneHeight
+    );
+
+    // Reduce the working image size.
+    sceneImage.resize(
+      max(1, round(sceneWidth * this.renderScale)),
+      max(1, round(sceneHeight * this.renderScale))
+    );
+
+    // Apply the blur to the captured image.
+    sceneImage.filter(
+      BLUR,
+      this.strength * this.renderScale
+    );
+
+    // Draw the processed image inside the window.
+    push();
+
+    imageMode(CORNER);
+    noTint();
+
+    image(
+      sceneImage,
+      0,
+      0,
+      sceneWidth,
+      sceneHeight
+    );
+
+    pop();
+  }
 }

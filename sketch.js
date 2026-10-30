@@ -1,5 +1,7 @@
 let trainWindow;
 let audioMechanic;
+let speedBlur;
+
 
 let birds = [];
 let birdLandingTreeFromRight = 2; //from right to left
@@ -29,6 +31,9 @@ function setup() {
   );
 
   setupInputControls();
+
+  speedBlur = new SpeedBlur(100 * SPEED_SCALE);
+
 
   audioMechanic = new AudioMechanic(
     insideTrainSound,
@@ -81,6 +86,8 @@ function draw() {
   background(138, 103, 103);
 
   const dt = Math.min(deltaTime / 1000, 0.05);
+
+  speedBlur.update(trainSpeed, dt)
 
   audioMechanic.updateTrainAudio(trainSpeed, birds);
 
@@ -146,7 +153,7 @@ function draw() {
         }
       }
     }
-  });
+  }, speedBlur);
 }
 
 class TrainWindow {
@@ -161,7 +168,7 @@ class TrainWindow {
   }
 
   // Method to draw the train window and the scene inside it
-  drawTrainWindow(drawScene = () => {}) {// （）=> {} is a default empty fuction if no function is provided as an argument
+  drawTrainWindow(drawScene = () => {}, blurEffect = null) {// （）=> {} is a default empty fuction if no function is provided as an argument
     const sceneWidth = width * this.sceneScaleWindowWidth;
     const sceneHeight = height * this.sceneScaleWindowHeight;
 
@@ -193,6 +200,16 @@ class TrainWindow {
 
     // Draw the scene inside the train window
     drawScene(sceneWidth, sceneHeight);
+
+    // Blur the interior before drawing the frame.
+    if (blurEffect !== null){
+      blurEffect.apply(
+        trainWindowX,
+        trainWindowY,
+        sceneWidth,
+        sceneHeight
+      );
+    }
 
     pop();
 
