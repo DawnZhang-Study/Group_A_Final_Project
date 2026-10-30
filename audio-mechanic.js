@@ -1,112 +1,96 @@
-// Audio assets are loaded before setup() so they are ready when the sketch begins.
 let insideTrainSound;
 let birdChirpingSound;
 
+// Load both sound files before setup() runs.
 function preload() {
   insideTrainSound = loadSound("audio/inside-old-train.mp3");
   birdChirpingSound = loadSound("audio/natural-bird-chirping.mp3");
 }
 
 class AudioMechanic {
-  constructor(trainSound, birdSound, maximumTrainSpeed = 1000) {
+  constructor(trainSound, birdSound, maximumTrainSpeed) {
     this.trainSound = trainSound;
     this.birdSound = birdSound;
     this.maximumTrainSpeed = maximumTrainSpeed;
-    this.audioStarted = false;
-    this.birdEventActive = false;
-    this.birdStopTimer = null;
-
-    // Browsers only allow sound after a real user interaction.
-    const unlockAudio = () => this.startTrainAudio();
-    window.addEventListener("pointerdown", unlockAudio, { once: true });
-    window.addEventListener("keydown", unlockAudio, { once: true });
+    this.audioButton = null;
   }
 
-  startTrainAudio() {
-    if (this.audioStarted) {
-      return;
-    }
+  // The tutorial uses a button because browsers require user interaction
+  // before sound can begin.
+  setupButton() {
+    this.audioButton = createButton("Start Audio");
+    this.audioButton.mousePressed(toggleAudioButton);
+    this.positionButton();
+  }
 
-    userStartAudio().then(() => {
-      if (this.audioStarted || !this.trainSound.isLoaded()) {
-        return;
+  positionButton() {
+    if (this.audioButton !== null) {
+      this.audioButton.position(
+        (width - this.audioButton.width) / 2,
+        height + 88
+      );
+    }
+  }
+
+  toggleAudio() {
+    if (this.trainSound.isPlaying()) {
+      this.trainSound.stop();
+
+      if (this.birdSound.isPlaying()) {
+        this.birdSound.stop();
       }
 
-      this.trainSound.setLoop(true);
-      this.trainSound.setVolume(0);
-      this.trainSound.play();
-      this.audioStarted = true;
-    });
+      this.audioButton.html("Start Audio");
+    } else {
+      this.trainSound.loop();
+      this.audioButton.html("Stop Audio");
+    }
   }
 
   updateTrainAudio(currentTrainSpeed, currentBirds) {
-    if (!this.audioStarted) {
+    // Do not update or start other sounds before the audio button is pressed.
+    if (!this.trainSound.isPlaying()) {
       return;
     }
 
-    const safeSpeed = constrain(
-      Number(currentTrainSpeed) || 0,
-      0,
-      this.maximumTrainSpeed
-    );
-    const speedRatio = safeSpeed / this.maximumTrainSpeed;
+    let speedRatio = currentTrainSpeed / this.maximumTrainSpeed;
+    speedRatio = constrain(speedRatio, 0, 1);
 
-    if (safeSpeed === 0) {
-      this.fadeOutTrainAudio();
-    } else {
-      // Faster travel is louder and slightly more rapid.
-      const targetVolume = map(speedRatio, 0, 1, 0.08, 0.65);
-      const targetRate = map(speedRatio, 0, 1, 0.78, 1.22);
+    // Faster speed produces a louder and quicker train sound.
+    let trainVolume = map(speedRatio, 0, 1, 0, 0.65);
+    let trainRate = map(speedRatio, 0, 1, 0.78, 1.22);
 
-      this.trainSound.setVolume(targetVolume, 0.2);
-      this.trainSound.rate(targetRate);
-    }
+    this.trainSound.setVolume(trainVolume);
+    this.trainSound.rate(trainRate);
 
-    this.updateBirdAudio(safeSpeed, currentBirds);
-  }
-
-  fadeOutTrainAudio(fadeTime = 0.6) {
-    this.trainSound.setVolume(0, fadeTime);
+    this.updateBirdAudio(currentTrainSpeed, currentBirds);
   }
 
   updateBirdAudio(currentTrainSpeed, currentBirds) {
-    const birdsAreVisible = currentBirds.some((bird) =>
-      bird.state === "flyingIn" ||
-      bird.state === "perching" ||
-      bird.state === "flyingOut"
-    );
-    const shouldPlayBirds = currentTrainSpeed === 0 && birdsAreVisible;
+    let birdsAreVisible = false;
 
-    if (shouldPlayBirds && !this.birdEventActive) {
-      this.birdEventActive = true;
-      clearTimeout(this.birdStopTimer);
+    for (let i = 0; i < currentBirds.length; i++) {
+      if (
+        currentBirds[i].state === "flyingIn" ||
+        currentBirds[i].state === "perching" ||
+        currentBirds[i].state === "flyingOut"
+      ) {
+        birdsAreVisible = true;
+      }
+    }
 
-      if (this.birdSound.isLoaded()) {
-        this.birdSound.setLoop(true);
+    if (currentTrainSpeed === 0 && birdsAreVisible) {
+      if (!this.birdSound.isPlaying()) {
+        this.birdSound.loop();
         this.birdSound.setVolume(0.32);
-
-        if (!this.birdSound.isPlaying()) {
-          this.birdSound.play();
-        }
       }
-    } else if (!shouldPlayBirds && this.birdEventActive) {
-      this.birdEventActive = false;
-      this.fadeOutBirdAudio();
+    } else if (this.birdSound.isPlaying()) {
+      this.birdSound.stop();
     }
   }
+}
 
-  fadeOutBirdAudio(fadeTime = 0.35) {
-    if (!this.birdSound.isPlaying()) {
-      return;
-    }
-
-    this.birdSound.setVolume(0, fadeTime);
-    clearTimeout(this.birdStopTimer);
-
-    this.birdStopTimer = setTimeout(() => {
-      if (!this.birdEventActive && this.birdSound.isPlaying()) {
-        this.birdSound.stop();
-      }
-    }, fadeTime * 1000 + 50);
-  }
+// This named function is used by mousePressed(), as in the tutorial examples.
+function toggleAudioButton() {
+  audioMechanic.toggleAudio();
 }

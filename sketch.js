@@ -35,6 +35,7 @@ function setup() {
     birdChirpingSound,
     100 * SPEED_SCALE
   );
+  audioMechanic.setupButton();
 
   trainWindow = new TrainWindow(      // Create a new instance of the TrainWindow class
   sceneScaleWindowWidth,
@@ -264,6 +265,8 @@ function windowResized() {
     windowWidth, 
     max(180, windowHeight - INPUT_PANEL_HEIGHT)
   );
+
+  audioMechanic.positionButton();
 }
 
 
