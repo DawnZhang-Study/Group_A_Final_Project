@@ -803,7 +803,7 @@ class Village {
         minX,
         maxX
     ) {
-        const maxHeightDiff = 24;
+        const maxHeightDiff = 10;
         const maxStep = 8;
         const villageGap = 65;
 
