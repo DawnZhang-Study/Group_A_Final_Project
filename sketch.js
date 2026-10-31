@@ -17,10 +17,12 @@ let mountain;
 
 let clouds =[];
 let cloudSlotWidth;
-const initialCloudCount = 4;
+const initialCloudCount = 3;
+const cloudMinScale = 0.8;
+const cloudMaxScale = 2.0;
 
 let houses = [];
-const initialHouseCount = 3;
+const initialHouseCount = 4;
 
 const sceneScaleWindowWidth = 0.95; // Scale factor for the width of the scene relative to the window width
 const sceneScaleWindowHeight = 0.9; // Scale factor for the height of the scene relative to the window height
@@ -79,7 +81,15 @@ function setup() {
 
   for(let i = 0; i<initialCloudCount; i++){
     const x = sceneWidth *(i + 0.5)/initialCloudCount
-    clouds.push(new Cloud(x, height * sceneScaleWindowHeight * 0.15, 0.05))
+    clouds.push(
+      new Cloud(
+        x, 
+        height * sceneScaleWindowHeight * 0.15, 
+        0.05,
+        cloudMinScale,
+        cloudMaxScale
+      )
+    )
   }
   cloudSlotWidth = sceneWidth/ clouds.length;
 

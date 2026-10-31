@@ -217,12 +217,19 @@ class Mountain{
 }
 
 class Cloud{
-    constructor(xPos,yPos,speedRatio = 0.01) {
+    constructor(xPos,yPos,speedRatio = 0.01,minScale = 0.7,maxScale = 1.3) {
         this.cloudPoints = [];
         this.centerX = xPos;
         this.centerY = yPos;
         this.speedRatio = speedRatio;
         this.moveSpeed = 0;
+
+        // Store size range for future clouds
+        this.minScale = minScale;
+        this.maxScale = maxScale;
+
+        // Each cloud gets its own random size
+        this.sizeScale = random(minScale, maxScale);
 
         this.noiseOffsetX = random(10000);
         this.noiseOffsetY = random(10000);
@@ -231,7 +238,7 @@ class Cloud{
         for (let angle = 0; angle < TWO_PI; angle += 0.1) {
             let noiseValue = noise( this.noiseOffsetX + cos ( angle ) * 2, this.noiseOffsetY + sin ( angle ) * 2)
 
-            let radius = 60 + 60 * noiseValue;
+            let radius = (60 + 60 * noiseValue) * this.sizeScale;
 
             let x = cos(angle) * radius * 1.5;
             let y = sin(angle) * radius * 0.45;
@@ -279,7 +286,12 @@ class Cloud{
             const newXPos = lastCloud.centerX + cloudSlotWidth;
 
             clouds.push(
-            new Cloud(newXPos,lastCloud.centerY ,lastCloud.speedRatio)
+            new Cloud(
+                newXPos,
+                lastCloud.centerY ,
+                lastCloud.speedRatio,
+                lastCloud.minScale,
+                lastCloud.maxScale)
             );
         }
 
@@ -676,5 +688,14 @@ class House {
                 house.houseType = floor(random(6));
             }
         }
+    }
+}
+
+class Village{
+    drawBuilding(){
+        
+    }
+    drawTree(){
+
     }
 }
