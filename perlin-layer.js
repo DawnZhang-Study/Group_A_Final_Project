@@ -151,6 +151,8 @@ class Mountain{
     constructor(speedRatio = 0.15){
         this.mountainVertexArray = [];
 
+        this.mountainPoints = []; // Store mountain ridge positions
+
         this.mountainVertexCount = 120; // Number of vertices for the mountain shape
         this.mountainPerlinNoiseStep = 0.04; // Step size for Perlin noise sampling
 
@@ -177,6 +179,9 @@ class Mountain{
     drawMountain(sceneWidth, sceneHeight) {
         const mountainSlotWidth = sceneWidth / (this.mountainVertexCount - 1);
         
+        // Update the mountain positions every frame
+        this.mountainPoints = [];
+
         push();
 
         fill(90,130,100);
@@ -188,6 +193,10 @@ class Mountain{
         for (let i = 0;i <this.mountainVertexArray.length; i++) {
             const x = i * mountainSlotWidth - this.mountainOffset;
             const y = map(this.mountainVertexArray[i], 0, 1, sceneHeight * 0.15, sceneHeight * 0.5);
+
+            // Record the actual position of each mountain vertex
+            this.mountainPoints.push({ x, y });
+
             vertex(x, y);
         }
 
@@ -691,11 +700,250 @@ class House {
     }
 }
 
-class Village{
-    drawBuilding(){
-        
-    }
-    drawTree(){
+class Village {
+    constructor(xPos, length = random(100, 180)) {
+        this.xPos = xPos;
+        this.length = length;
 
+        this.objects = [];
+
+        // Generate buildings and trees only once
+        for (let x = 10; x < this.length - 10; x += random(18, 30)) {
+            this.objects.push({
+                x: x,
+                isTree: random() < 0.35,
+                width: random(15, 20),
+                height: random(5, 30)
+            });
+        }
+    }
+
+    // Draw a building using a black rectangle
+    drawBuilding(x, y, w, h) {
+        noStroke();
+        fill(0);
+
+        rect(x - w / 2, y - h, w, h);
+    }
+
+    // Draw a tree using three lines
+    drawTree(x, y, w, h) {
+        stroke(0);
+        strokeWeight(2);
+
+        // Trunk
+        line(x, y, x, y - h);
+
+        // Left branch
+        line(
+            x, y - h * 0.5,
+            x - w / 2, y - h
+        );
+
+        // Right branch
+        line(
+            x, y - h * 0.5,
+            x + w / 2, y - h
+        );
+    }
+
+    // Get mountain height at a specific x position
+    static getMountainY(x, mountainPoints) {
+        for (let i = 0; i < mountainPoints.length - 1; i++) {
+            const p1 = mountainPoints[i];
+            const p2 = mountainPoints[i + 1];
+
+            if (x >= p1.x && x <= p2.x) {
+                const t = (x - p1.x) / (p2.x - p1.x);
+
+                return lerp(p1.y, p2.y, t);
+            }
+        }
+
+        return null;
+    }
+
+    // Draw the village along the mountain ridge
+    drawVillage(mountainPoints) {
+        push();
+
+        for (let obj of this.objects) {
+            const x = this.xPos + obj.x;
+
+            // Calculate the mountain height
+            const y = Village.getMountainY(x, mountainPoints);
+
+            if (y === null) continue;
+
+            if (obj.isTree) {
+                this.drawTree(
+                    x,
+                    y,
+                    obj.width,
+                    obj.height
+                );
+            } else {
+                this.drawBuilding(
+                    x,
+                    y,
+                    obj.width,
+                    obj.height
+                );
+            }
+        }
+
+        pop();
+    }
+
+    // Search for a flat mountain area
+    static findFlatSpot(
+        mountainPoints,
+        length,
+        villages,
+        minX,
+        maxX
+    ) {
+        const maxHeightDiff = 24;
+        const maxStep = 8;
+        const villageGap = 65;
+
+        let candidates = [];
+
+        for (let point of mountainPoints) {
+            const startX = point.x;
+            const endX = startX + length;
+
+            // Keep the whole village inside the search range
+            if (startX < minX || endX > maxX) {
+                continue;
+            }
+
+            // Find all mountain points in this range
+            const section = mountainPoints.filter(p =>
+                p.x >= startX && p.x <= endX
+            );
+
+            const endY = Village.getMountainY(
+                endX,
+                mountainPoints
+            );
+
+            if (section.length < 2 || endY === null) {
+                continue;
+            }
+
+            // Include the end of the village range
+            section.push({
+                x: endX,
+                y: endY
+            });
+
+            // Calculate the total height difference
+            const heights = section.map(p => p.y);
+
+            const heightDiff =
+                max(...heights) - min(...heights);
+
+            // Detect steep neighbouring points
+            let tooSteep = false;
+
+            for (let i = 1; i < section.length; i++) {
+                const diff = abs(
+                    section[i].y - section[i - 1].y
+                );
+
+                if (diff > maxStep) {
+                    tooSteep = true;
+                    break;
+                }
+            }
+
+            // Reject steep mountain areas
+            if (heightDiff > maxHeightDiff || tooSteep) {
+                continue;
+            }
+
+            // Avoid overlapping villages
+            const tooClose = villages.some(village =>
+                startX < village.xPos + village.length + villageGap &&
+                endX > village.xPos - villageGap
+            );
+
+            if (tooClose) {
+                continue;
+            }
+
+            // Save valid positions
+            candidates.push({
+                x: startX,
+                heightDiff: heightDiff
+            });
+        }
+
+        if (candidates.length === 0) {
+            return null;
+        }
+
+        // Sort from the flattest area
+        candidates.sort((a, b) =>
+            a.heightDiff - b.heightDiff
+        );
+
+        // Randomly select from the flattest 30%
+        const bestCount = max(
+            1,
+            ceil(candidates.length * 0.3)
+        );
+
+        const selected = random(
+            candidates.slice(0, bestCount)
+        );
+
+        return selected.x;
+    }
+
+    // Move villages at the same speed as the mountain
+    static moveVillages(
+        villages,
+        speed,
+        dt,
+        sceneWidth,
+        mountainPoints
+    ) {
+        // 1. Move all villages
+        for (let village of villages) {
+            village.xPos -= speed * dt;
+        }
+
+        // 2. Remove villages outside the left edge
+        for (let i = villages.length - 1; i >= 0; i--) {
+            const village = villages[i];
+
+            if (village.xPos + village.length < 0) {
+                villages.splice(i, 1);
+            }
+        }
+
+        // 3. Keep at most three villages
+        if (villages.length >= 6 || speed <= 0) {
+            return;
+        }
+
+        // 4. Generate a new village length
+        const length = random(100, 180);
+
+        // 5. Search for a suitable area on the right
+        const x = Village.findFlatSpot(
+            mountainPoints,
+            length,
+            villages,
+            sceneWidth * 0.65,
+            sceneWidth
+        );
+
+        // 6. Add a new village only if a flat spot exists
+        if (x !== null) {
+            villages.push(new Village(x, length));
+        }
     }
 }

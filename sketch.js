@@ -14,6 +14,8 @@ let treeSlotWidth;
 const initialTreeCount = 4;
 
 let mountain;
+let villages = [];
+let villageInitialized = false;
 
 let clouds =[];
 let cloudSlotWidth;
@@ -283,6 +285,44 @@ function drawFarScene(sceneWidth, sceneHeight,dt) {
   // Draw distant mountains
   mountain.moveMountain(trainSpeed, dt, sceneWidth);
   mountain.drawMountain(sceneWidth, sceneHeight);
+
+   // 3. Generate initial village clusters
+    if (!villageInitialized) {
+        for (let i = 0; i < 6; i++) {
+            const length = random(100, 180);
+
+            // Find a suitable flat area
+            const x = Village.findFlatSpot(
+                mountain.mountainPoints,
+                length,
+                villages,
+                0,
+                sceneWidth
+            );
+            if (x !== null) {
+                villages.push(
+                    new Village(x, length)
+                );
+            }
+        }
+        villageInitialized = true;
+    } else {
+        // 4. Move villages with the mountain
+        Village.moveVillages(
+            villages,
+            mountain.moveSpeed,
+            dt,
+            sceneWidth,
+            mountain.mountainPoints
+        );
+    }
+
+    // 5. Draw all villages along the mountain ridge
+    for (let village of villages) {
+        village.drawVillage(
+            mountain.mountainPoints
+        );
+    }
 
 }
 
