@@ -6,6 +6,8 @@ class TimeBird {
     this.y = y;
     this.size = 18;
     this.speed = 120; // Flight speed in pixels per second
+    // Choose a wave height once for each bird.
+    this.flightWaveHeight = random(20, 45);
 
     this.state = "waiting";
     this.stageTicks = 0;

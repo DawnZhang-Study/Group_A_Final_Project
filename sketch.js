@@ -178,15 +178,36 @@ function draw() {
         if (i < birdLandingTargets.length) {
           const target = birdLandingTargets[i];
 
+          // Update movement and state first.
+          birds[i].update(
+             dt,
+             target.x,
+             trainSpeed,
+             sceneWidth
+          );
+          
+          // Set the base height using the branch position.
           birds[i].y = target.y - 8;
 
-          birds[i].update(
-            dt,
-            target.x,
-            trainSpeed,
-            sceneWidth
+          if (birds[i].state === "flyingIn") {
+             // Progress goes from 0 at the start to 1 at the branch.
+             const progress = map(
+             birds[i].x,
+             -birds[i].size,
+             target.x,
+             0,
+             1
           );
+          
+            // Reduce the wave height near the branch.
+            const waveHeight =
+            birds[i].flightWaveHeight * (1 - progress);
 
+            // Add smooth vertical movement.
+            birds[i].y +=
+              sin(progress * TWO_PI * 2) * waveHeight;
+        }
+        
           birds[i].display();
         }
       }
