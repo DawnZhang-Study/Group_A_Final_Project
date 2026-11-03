@@ -4,16 +4,22 @@ Rain, Steam, and Speed
 # Creative Coding Project
 
 ## 1. Inspiration
+//What inspired our team's project? Explain how artworks, games, websites, or other concepts influenced our design.
 
-**Description:**
+Our project reinterprets J. M. W. Turner’s *Rain, Steam and Speed – The Great Western Railway* (1844).
 
-What inspired our team's project? Explain how artworks, games, websites, or other concepts influenced our design.
+The painting’s blurred landscape and strong sense of movement inspired our question: “When the world moves faster, what do we stop noticing?”
+
+We move the viewpoint inside the train, allowing viewers to look out the window at the scenery and control the train’s speed. Slowing down makes the scenery easier to observe. Stopping and staying gives viewers time to observe a small event: birds arriving, resting on branches, and flying away.
+
+Through this experience, we explore the relationship between speed, time and attention.
+
 
 ## 2. Techniques
 
 **Description:**
 
-Explain the p5.js techniques implemented in our project and the reasons behind our technical decisions.
+//Explain the p5.js techniques implemented in our project and the reasons behind our technical decisions.
 
 **Key Techniques:**
 - Perlin Noise
@@ -29,11 +35,19 @@ Our project consists of four main mechanics, each developed by a different team 
 
 ### 3.1 Time-Based Mechanic
 
-**Responsible Member:** [Name]
+Responsible Member: [Doris Yu]
+Main file: time-based.js
 
 **Description:**
-- Controls events and animations based on elapsed time.
-- Manages the timing and behaviour of birds in the scene.
+- Creates three TimeBird objects with different waiting times.
+- Uses a timer and individual counters to control waiting and resting.
+- Controls the sequence: waiting, flying in, perching, flying out and finished.
+- Draws the birds using basic shapes and animates their wings during flight.
+- Adds gentle vertical waves during arrival, with a randomly chosen wave height for each bird.
+- Connects bird movement to saved landing positions provided by the scenery mechanic.
+- Resets the bird events when the train starts moving again.
+
+The tree and branch-selection functions were contributed by [teammate’s name].
 
 ### 3.2 Perlin Noise Mechanic
 
@@ -86,9 +100,17 @@ List any external resources, tutorials, documentation, or code examples used in 
 Add source references as comments in the relevant JavaScript files.
 
 ## 6. Interaction Instructions
+1. Drag the slider to change the train speed from 0 to 100.
+2. Press the left or right arrow key to decrease or increase the speed by 1.  Hold an arrow key to keep adjusting it.
+3. Press the spacebar or drag the slider to 0 to stop the train.
+4. Stay stopped to watch the birds begin flying in after approximately 2, 3 and 4 seconds.
+5. Each bird rests for approximately 3 seconds after reaching its branch, then flies away.
+6. Increase the speed to restart the train and reset the bird events.
+7. Observe how the landscape, blur and sounds respond to the train's movement.
 
-**How to Experience the Project:**
+Audio is enabled when you first use the slider or the keyboard controls listed above.
 
+//
 1. Open the project in a browser.
 2. Use the left and right arrow keys to adjust the train speed.
 3. Press the spacebar to stop the train.
