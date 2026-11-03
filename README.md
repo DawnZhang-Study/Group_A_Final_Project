@@ -68,11 +68,21 @@ The tree and branch-selection functions were contributed by [teammate’s name].
 
 ### 3.4 Audio Mechanic
 
-**Responsible Member:** [Name]
+**Responsible Member: [Jiachen Sun]  
+Main file: audio-mechanic.js
 
 **Description:**
-- Manages train ambience and environmental sound effects.
-- Adjusts audio behaviour based on train movement and events.
+- Loads and manages the train ambience and bird-chirping sound using p5.sound.
+- Keeps the train sound at a consistent volume.
+- Uses `rate()` to connect the train sound rhythm to the shared train speed.
+- Maps the train speed to a playback rate from 0.6 to 1.8, making the train rhythm faster as the speed increases.
+- Stops the train sound when the speed reaches 0 and restarts it when the train moves again.
+- Plays the bird-chirping sound while the train is stopped and the birds are flying in, perching or flying out.
+- Stops the bird sound when the train restarts or when the bird event finishes.
+- Enables audio after the viewer first uses the speed slider or keyboard controls, following browser audio-playback restrictions without requiring a separate audio button.
+
+    
+16:41
 
 ## 4. AI Acknowledgement
 
