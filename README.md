@@ -14,20 +14,29 @@ We move the viewpoint inside the train, allowing viewers to look out the window 
 
 Through this experience, we explore the relationship between speed, time and attention.
 
-
 ## 2. Techniques
 
-**Description:**
+Our project combines p5.js drawing, animation, interaction and audio to create the experience of looking through a train window. A shared train speed connects these mechanisms, allowing viewers to explore how slowing down changes what they notice.
 
-//Explain the p5.js techniques implemented in our project and the reasons behind our technical decisions.
+### 2.1 Time-Based Mechanic
 
-**Key Techniques:**
-- Perlin Noise
-- Object-Oriented Programming (OOP)
-- Parallax Scrolling
-- Time-Based Events
-- Keyboard Interaction
-- Audio Control
+We use JavaScript's `setInterval()` and state management to organise the birds' arrival, rest and departure. Staggered waiting times encourage viewers to stop and observe. In p5.js, `deltaTime` supports consistent horizontal movement, while `sin()` and `map()` create a flight path that becomes gentler near landing. Birds are drawn with `ellipse()`, `circle()` and `triangle()`, and their landing positions come from recorded tree-branch coordinates.
+
+### 2.2 Perlin Noise and Scenery Mechanic
+
+We use `noise()` to vary mountain heights, tree angles and cloud outlines, creating an organic landscape. Recursive trees use `translate()`, `rotate()`, `push()` and `pop()` to position branches independently. `beginShape()`, `vertex()` and `endShape()` draw the mountain and cloud silhouettes. Basic shapes and `random()` add variety to buildings, while `lerp()` keeps villages aligned with the mountain ridge. Different scrolling speeds create parallax depth, and replacing or repositioning objects beyond the window maintains a continuous journey.
+
+### 2.3 User-Input and Speed-Blur Mechanic
+
+`createSlider()`, `keyPressed()` and `keyIsDown()` let viewers adjust the speed or stop, while `constrain()` keeps the speed within its range. Faster movement increases blur, making scenery details harder to observe. We use `get()` to capture the window interior, image `resize()` to reduce processing size, and `filter(BLUR, ...)` with `image()` to display the effect. `random()` and `lerp()` create gentle blur variations. Processing only the interior keeps the frame and controls clear.
+
+### 2.4 Audio Mechanic
+
+We use p5.sound's `loadSound()` within `preload()` to load the train and bird recordings, then `loop()` for continuous playback. `map()` and `rate()` connect the train sound's playback speed to its movement, while `setVolume()` keeps volume consistent. Bird chirping follows the birds' active states when the train stops. `isPlaying()` and `stop()` manage these transitions, connecting the sound to what the viewer sees.
+
+### 2.5 Shared Structure and Rendering
+
+JavaScript classes organise the scenery, birds, controls and audio. p5.js `setup()` initialises the scene, while `draw()` updates it and `background()` clears each frame. Drawing order establishes visual layers, and `clip()` with a rounded `rect()` confines the scene to the train window. `windowResized()` and `resizeCanvas()` adjust the canvas to the browser window.
 
 ## 3. Mechanic Ownership
 
