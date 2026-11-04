@@ -1,10 +1,6 @@
-# 9103_Creative_Coding_Project
-Rain, Steam, and Speed
-
-# Creative Coding Project
+# IDEA9103 Creative Coding Project
 
 ## 1. Inspiration
-//What inspired our team's project? Explain how artworks, games, websites, or other concepts influenced our design.
 
 Our project reinterprets J. M. W. Turner’s *Rain, Steam and Speed – The Great Western Railway* (1844).
 
