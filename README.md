@@ -35,8 +35,8 @@ Our project consists of four main mechanics, each developed by a different team 
 
 ### 3.1 Time-Based Mechanic
 
-Responsible Member: [Doris Yu]
-Main file: time-based.js
+**Responsible Member:** [Doris Yu]
+**Main file:** `time-based.js`
 
 **Description:**
 - Creates three TimeBird objects with different waiting times.
@@ -52,6 +52,7 @@ The tree and branch-selection functions were contributed by [teammate’s name].
 ### 3.2 Perlin Noise Mechanic
 
 **Responsible Member:** [Dawn Zhang-czha6349]
+**Main File:** `perlin-layer.js`
 
 **Description:**
 
@@ -83,8 +84,8 @@ Creates the scenery outside the train window, including trees, mountains, clouds
 
 ### 3.4 Audio Mechanic
 
-**Responsible Member: [Jiachen Sun]  
-Main file: audio-mechanic.js
+**Responsible Member:**[Jiachen Sun]  
+**Main file:** `audio-mechanic.js`
 
 **Description:**
 - Loads and manages the train ambience and bird-chirping sound using p5.sound.
