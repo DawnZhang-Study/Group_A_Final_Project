@@ -51,12 +51,27 @@ The tree and branch-selection functions were contributed by [teammate’s name].
 
 ### 3.2 Perlin Noise Mechanic
 
-**Responsible Member:** [Name]
+**Responsible Member:** [Dawn Zhang-czha6349]
 
 **Description:**
-- Uses Perlin Noise to generate natural-looking landscapes.
-- Creates procedural mountains, trees, clouds, and other environmental elements.
-- Implements parallax scrolling to create a sense of depth.
+
+Creates the scenery outside the train window, including trees, mountains, clouds, houses and distant villages. Perlin noise gives the natural elements varied shapes, while different movement speeds create a sense of depth.
+
+**Classes and Main Functions:**
+
+- **`Tree`** — Creates branching trees. `drawTree()` draws each tree, and `drawBranch()` recursively generates smaller branches with angles controlled by Perlin noise. Branch positions are recorded, and `getBirdLandPlacePoint()` selects landing points for the bird mechanic.
+
+- **`Mountain`** — Creates a continuous mountain landscape. `addMountainVertex()` samples Perlin noise to generate ridge heights, while `drawMountain()` draws the mountain and records its ridge positions. `moveMountain()` scrolls the landscape and adds new points as it moves.
+
+- **`Cloud`** — Creates clouds with varied sizes and outlines. The constructor uses Perlin noise to generate the outline points, and `drawCloud()` draws the resulting shape.
+
+- **`House`** — Adds six different building styles using basic shapes. `drawHouse()` selects the appropriate style, while shared functions such as `drawWall()`, `drawWindow()` and `drawDoor()` draw reusable details.
+
+- **`Village`** — Creates small groups of buildings and trees along the mountain ridge. `findFlatSpot()` finds relatively flat areas with enough spacing, `getMountainY()` calculates the ridge height at a given position, and `drawVillage()` places the objects along the terrain.
+
+**Movement and Scene Continuity:**
+
+`moveTrees()`, `moveMountain()`, `moveClouds()`, `moveHouses()` and `moveVillages()` update positions using the shared train speed and elapsed time (`dt`). Nearby objects move faster than distant objects, creating parallax scrolling. Objects leaving the scene are replaced or repositioned to maintain continuous scenery. When the train stops, the scenery stops moving.
 
 ### 3.3 User-Input Mechanic
 
