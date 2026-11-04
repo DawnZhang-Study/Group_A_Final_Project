@@ -47,7 +47,7 @@ Our project consists of four main mechanics, each developed by a different team 
 - Connects bird movement to saved landing positions provided by the scenery mechanic.
 - Resets the bird events when the train starts moving again.
 
-The tree and branch-selection functions were contributed by [teammate’s name].
+The tree-selection method `TimeBird.getBirdLandingTree()` and the branch landing-point method `Tree.getBirdLandPlacePoint()` were contributed by Dawn Zhang.
 
 ### 3.2 Perlin Noise Mechanic
 
@@ -69,6 +69,12 @@ Creates the scenery outside the train window, including trees, mountains, clouds
 - **`House`** — Adds six different building styles using basic shapes. `drawHouse()` selects the appropriate style, while shared functions such as `drawWall()`, `drawWindow()` and `drawDoor()` draw reusable details.
 
 - **`Village`** — Creates small groups of buildings and trees along the mountain ridge. `findFlatSpot()` finds relatively flat areas with enough spacing, `getMountainY()` calculates the ridge height at a given position, and `drawVillage()` places the objects along the terrain.
+
+**Bird Landing Selection:**
+
+I also implemented `TimeBird.getBirdLandingTree()` in `time-based.js`. This function uses the recorded branch positions to identify trees that are at least partially visible in the train window, sorts them horizontally, and selects a tree by counting from the right. The current setting selects the second tree from the right.
+
+Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects the scenery to the bird mechanic: one function selects the tree, and the other selects branch positions for the birds to land on.
 
 **Movement and Scene Continuity:**
 
