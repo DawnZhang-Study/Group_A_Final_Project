@@ -143,6 +143,13 @@ I used ChatGPT to assist with timing logic, bird animation and debugging in `tim
 
 Individual counters track waiting and resting time, while states control the birds’ arrival, perching and departure. During arrival, a sine wave adds gentle vertical movement, with its height gradually decreasing near the landing point. The relevant techniques and sources are also acknowledged in comments in the corresponding JavaScript files.
 
+### Xinyu Chen: User Input and Speed Blur
+I used ChatGPT to help generate the `SpeedController` and `SpeedBlur` classes in `user_input.js`, their integration in `sketch.js`, and the control-panel styles in `style.css`. It also helped explain the programming concepts and debug the implementation. I adapted the suggestions to our group's shared speed and audio interfaces.
+
+`SpeedController` reads mouse and keyboard input, limits the interface value to 0–100, converts it to the shared pixel speed, and synchronises the slider and display. A countdown controls repeated adjustments while an arrow key is held.
+
+`SpeedBlur` calculates blur from the shared speed. It selects small random variations and gradually approaches them using `lerp()`. It captures and blurs the window interior before the frame is drawn, and skips the effect when the train stops.
+
 ## 5. External References
 
 ### Project inspiration and course material
@@ -159,10 +166,13 @@ We collected the following examples when preparing to explain how the finished s
 - [The Coding Train, *Recursive Fractal Trees*](https://thecodingtrain.com/challenges/14-fractal-trees-recursive) — Shows how to draw two shorter branches from the same fork using recursion, `push()` and `pop()`. Our `Tree.drawBranch()` also records the tip of each branch so birds have landing positions. [Runnable tree example](https://editor.p5js.org/codingtrain/sketches/xTjmYXU3q)
 - [The Coding Train, *Graphing 1D Perlin Noise*](https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/graphing-1d-perlin-noise) — Shows why neighbouring noise samples form a smooth profile. In our sketch, `Mountain.addMountainVertex()` advances the sample position by 0.04, and `drawMountain()` connects the resulting heights into a ridge. [Runnable noise graph](https://editor.p5js.org/codingtrain/sketches/EZeHXBhei)
 - [The Coding Train, *Polar Noise Loops*](https://thecodingtrain.com/tracks/noise/136-polar-noise-loops) — Demonstrates sampling noise around a circle to vary its radius. Our `Cloud` constructor stretches this outline horizontally and compresses it vertically to form a cloud.
-- [p5.js, `lerp()`](https://p5js.org/reference/p5/lerp/) — Explains how to interpolate between two values. `Village.getMountainY()` interpolates between neighbouring ridge heights to place each building on the slope.
+- [p5.js, `lerp()`](https://p5js.org/reference/p5/lerp/) — Explains how to interpolate between two values. `Village.getMountainY()` interpolates between neighbouring ridge heights to place each building on the slope. `SpeedBlur.update()` also uses `lerp()` to smooth changes between random blur targets.
 - [p5.js, `clip()`](https://p5js.org/reference/p5/clip/) — Documents the mask used in `TrainWindow.drawTrainWindow()` to keep the scenery inside the rounded window.
 - [Godot Engine, *2D Parallax*](https://docs.godotengine.org/en/4.3/tutorials/2d/2d_parallax.html) — Illustrates why layers moving at different speeds suggest depth. In our p5.js scene, distant mountains move more slowly than the trees.
 - [University of Sydney. (2026). Week 10 tutorial: Sound in p5.js [Course tutorial].] IDEA9103 Creative Coding.
+- [p5.js, `createSlider()`](https://p5js.org/reference/p5/createSlider/) — Reference for the slider created in `SpeedController.setup()`, with a range of 0–100, an initial value of 50 and a step size of 1.
+- [p5.js, `keyIsDown()`](https://p5js.org/reference/p5/keyIsDown/) — Explains how to check whether a key remains pressed. `SpeedController.updateHeldKeys(dt)` uses this to support continuous speed adjustment while an arrow key is held.
+- [p5.Image, `filter()`](https://p5js.org/reference/p5.Image/filter/) — Documents the `BLUR` filter used in `SpeedBlur.apply()` to blur the captured window interior according to the train speed.
 
 ### Visual comparisons for the presentation
 
