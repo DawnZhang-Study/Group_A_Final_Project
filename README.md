@@ -129,6 +129,9 @@ Include comments in the relevant JavaScript files to identify AI-assisted code.
 
 - [J. M. W. Turner, *Rain, Steam, and Speed – The Great Western Railway* (1844), The National Gallery](https://www.nationalgallery.org.uk/paintings/joseph-mallord-william-turner-rain-steam-and-speed-the-great-western-railway) — Turner's approaching train and blurred landscape inspired us to move the viewpoint inside the carriage and let the viewer slow down to notice details outside.
 - [The Coding Train, *Introduction to Perlin Noise and p5.js*](https://www.youtube.com/watch?v=Qf4dIN99e2w) — Our IDEA9103 Week 8 slides link to this introduction on slide 48. Slide 57 suggests using noise to vary branch angles. In `Tree.drawBranch()`, each branch samples a noise value and maps it to an angle before drawing its two children.
+- [siz0frena. (2025, April 3). Natural bird chirping [Sound effect]. Pixabay.] https://pixabay.com/sound-effects/nature-natural-bird-chirping-322497/
+- kokoreli777. (2023, October 3). Inside old train [Sound effect]. Pixabay. https://pixabay.com/sound-effects/film-special-effects-inside-old-train-169418/
+
 
 ### Technical references for the presentation
 
@@ -140,6 +143,7 @@ We collected the following examples when preparing to explain how the finished s
 - [p5.js, `lerp()`](https://p5js.org/reference/p5/lerp/) — Explains how to interpolate between two values. `Village.getMountainY()` interpolates between neighbouring ridge heights to place each building on the slope.
 - [p5.js, `clip()`](https://p5js.org/reference/p5/clip/) — Documents the mask used in `TrainWindow.drawTrainWindow()` to keep the scenery inside the rounded window.
 - [Godot Engine, *2D Parallax*](https://docs.godotengine.org/en/4.3/tutorials/2d/2d_parallax.html) — Illustrates why layers moving at different speeds suggest depth. In our p5.js scene, distant mountains move more slowly than the trees.
+- [University of Sydney. (2026). Week 10 tutorial: Sound in p5.js [Course tutorial].] IDEA9103 Creative Coding.
 
 ### Visual comparisons for the presentation
 
