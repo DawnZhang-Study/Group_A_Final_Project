@@ -89,12 +89,25 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ### 3.3 User-Input Mechanic
 
-**Responsible Member:** [Name]  
-**Main file:** `file.js`
+**Responsible Member:** [Xinyu Chen-xche9859]  
+**Main file:** `user_input.js`, with integration in `sketch.js` and interface styling in `style.css`.
 
 **Description:**
 - Allows users to control the train's speed through keyboard input.
 - Handles interactions that affect the movement of the scene.
+- Creates a speed slider, a numerical speed display and interaction instructions.
+- Allows viewers to select a speed from 0 to 100. Left and right arrow keys adjust the value by 1, holding an arrow continues adjusting it, and Space stops the train.
+- Keeps the slider and displayed number synchronised. The interface value is multiplied by 10 to update the shared `trainSpeed` used by the other mechanics.
+- Adds stronger blur at higher speeds, with small, smoothly changing random variations. Stopping removes the added blur.
+- Applies blur only to the window interior, keeping the window frame and controls clear.
+- Calls the existing audio mechanic after slider or keyboard input.
+
+**Classes and Main Functions:**
+- `SpeedController` manages the controls and current interface value. `setup()` creates the interface, `setSpeed()` updates and limits the speed, and the input methods handle dragging, individual key presses and held keys.
+
+- `SpeedBlur` reads the shared speed. `update()` calculates blur strength and smooth random variation. `apply()` captures the window interior, processes a smaller image with the blur filter, and draws it back into the window.
+
+This mechanic gives viewers control over their viewing pace. Faster travel makes details harder to distinguish, while slowing down and stopping allows closer observation.
 
 ### 3.4 Audio Mechanic
 
