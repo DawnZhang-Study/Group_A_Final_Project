@@ -114,15 +114,13 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ## 4. AI Acknowledgement
 
-**AI Tools Used:** [ChatGPT / Other AI Tools]
+**NAME:**「Dawn Zhang」
+I used ChatGPT to help generate the initial code for the following parts of `perlin-layer.js`. The relevant sections are acknowledged in code comments.
 
-**Purpose:**
-
-Explain how AI tools assisted with code development, debugging, or understanding programming concepts.
-
-**Code Acknowledgement:**
-
-Include comments in the relevant JavaScript files to identify AI-assisted code.
+- **Tree and cloud movement** — `moveTrees()` and `moveClouds()` use train speed and elapsed time to scroll objects, add new ones on the right, and remove those leaving the left edge.
+- **Mountain movement** — `moveMountain()` shifts the ridge and replaces old height samples with new noise values.
+- **Six house styles** — The `House` drawing methods combine basic shapes, reusable doors and windows, and loops for repeated details.
+- **Village placement and movement** — `findFlatSpot()` selects relatively flat, sufficiently spaced sites. `moveVillages()` keeps villages moving with the mountain and adds replacements when suitable sites are available.
 
 ## 5. External References
 
