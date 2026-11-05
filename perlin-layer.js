@@ -28,6 +28,7 @@ class Tree{
         pop();
     }
 
+    // Technique reference: https://thecodingtrain.com/challenges/14-fractal-trees-recursive
     drawBranch(length, branchID,level, startX, startY, totalAngle){
         // Base case: if the branch length is too small, stop drawing
         if (length < 10) {
@@ -170,6 +171,7 @@ class Mountain{
         }
     }
 
+    // Technique reference: https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/graphing-1d-perlin-noise
     addMountainVertex() {
         // Sample Perlin noise to get a value between 0 and 1
         const noiseValue = noise(this.noiseOffset + this.noiseIndex * this.mountainPerlinNoiseStep);
@@ -177,6 +179,7 @@ class Mountain{
         this.noiseIndex++;
     }
 
+    // Technique reference: https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/graphing-1d-perlin-noise
     drawMountain(sceneWidth, sceneHeight) {
         const mountainSlotWidth = sceneWidth / (this.mountainVertexCount - 1);
         
@@ -228,6 +231,7 @@ class Mountain{
 }
 
 class Cloud{
+    // Technique reference: https://thecodingtrain.com/tracks/noise/136-polar-noise-loops
     constructor(xPos,yPos,speedRatio = 0.01,minScale = 0.7,maxScale = 1.3) {
         this.cloudPoints = [];
         this.centerX = xPos;
@@ -751,6 +755,7 @@ class Village {
         );
     }
 
+    // Technique reference: https://p5js.org/reference/p5/lerp/
     // Get mountain height at a specific x position
     static getMountainY(x, mountainPoints) {
         for (let i = 0; i < mountainPoints.length - 1; i++) {

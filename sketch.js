@@ -215,6 +215,7 @@ function draw() {
   }, speedBlur);
 }
 
+// Technique reference: https://p5js.org/reference/p5/clip/
 class TrainWindow {
   constructor(
     sceneScaleWindowWidth,
