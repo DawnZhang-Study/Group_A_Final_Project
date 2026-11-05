@@ -115,6 +115,7 @@ class Tree{
         return selectedPoints;
     }
 
+    // this code was generated with the help of ChatGPT and move the trees based on the train speed and delta time
     static moveTrees(trees,trainSpeed, dt, sceneWidth,treeSlotWidth){        
         if (trees.length == 0 || treeSlotWidth <= 0) {
             return;
@@ -206,6 +207,7 @@ class Mountain{
         pop();
     }
 
+    // this code was generated with the help of ChatGPT and move the mountain based on the train speed and delta time
     moveMountain(trainSpeed, dt, sceneWidth){ 
         if(sceneWidth <= 0){
             return;
@@ -274,6 +276,7 @@ class Cloud{
         pop();
     }
 
+    // this code was generated with the help of ChatGPT and move the clouds based on the train speed and delta time
     static moveClouds(clouds,trainSpeed, dt, sceneWidth,cloudSlotWidth) {
         if (clouds.length == 0 || cloudSlotWidth <= 0) {
             return;
@@ -388,6 +391,7 @@ class House {
         circle(x + w - 7, -h / 2, 4);
     }
 
+    //this code was generated with the help of ChatGPT and create 6 different house types for the village scene.
     // 01 Classic cottage
     drawCottage() {
         const w = this.w;
@@ -795,7 +799,7 @@ class Village {
         pop();
     }
 
-    // Search for a flat mountain area
+    // this code was generated with the help of ChatGPT and search for a flat mountain area
     static findFlatSpot(
         mountainPoints,
         length,
@@ -902,6 +906,7 @@ class Village {
         return selected.x;
     }
 
+    // this code was generated with the help of ChatGPT and move the villages based on the train speed and delta time
     // Move villages at the same speed as the mountain
     static moveVillages(
         villages,
