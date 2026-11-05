@@ -16,7 +16,9 @@ Our project combines p5.js drawing, animation, interaction and audio to create t
 
 ### 2.1 Time-Based Mechanic
 
-We use JavaScript's `setInterval()` and state management to organise the birds' arrival, rest and departure. Staggered waiting times encourage viewers to stop and observe. In p5.js, `deltaTime` supports consistent horizontal movement, while `sin()` and `map()` create a flight path that becomes gentler near landing. Birds are drawn with `ellipse()`, `circle()` and `triangle()`, and their landing positions come from recorded tree-branch coordinates.
+We use JavaScript's `setInterval()` and individual counters to control the birds' waiting and resting times. Each bird moves through a sequence of states: waiting, flying in, perching, flying out and finished. Different waiting times make the three birds arrive one after another, encouraging viewers to stop and observe.
+
+In p5.js, `deltaTime` supports consistent horizontal movement. During arrival, `sin()` and `map()` add gentle vertical waves that become smaller near the landing point. Each bird has a randomly chosen wave height. Birds are drawn with `ellipse()`, `circle()` and `triangle()` with moving wings during flight and folded wings while resting.Saved tree-branch coordinates connect the birds to their landing positions.
 
 ### 2.2 Perlin Noise and Scenery Mechanic
 
@@ -40,19 +42,19 @@ Our project consists of four main mechanics, each developed by a different team 
 
 ### 3.1 Time-Based Mechanic
 
-**Responsible Member:** [Doris Yu]  
-**Main file:** `time-based.js`
+**Responsible Member:** [Doris Yu - ziyu0781]
+**Main file:** `time-based.js`,with integration code in `sketch.js`
 
 **Description:**
 - Creates three TimeBird objects with different waiting times.
 - Uses a timer and individual counters to control waiting and resting.
 - Controls the sequence: waiting, flying in, perching, flying out and finished.
 - Draws the birds using basic shapes and animates their wings during flight.
-- Adds gentle vertical waves during arrival, with a randomly chosen wave height for each bird.
+- Adds gentle vertical waves during arrival, with a randomly chosen wave height for each bird. The waves gradually become smaller near the landing point.
 - Connects bird movement to saved landing positions provided by the scenery mechanic.
 - Resets the bird events when the train starts moving again.
 
-The tree-selection method `TimeBird.getBirdLandingTree()` and the branch landing-point method `Tree.getBirdLandPlacePoint()` were contributed by Dawn Zhang.
+Dawn Zhang contributed the `getBirdLandingTree()` method in `TimeBird` and the `getBirdLandPlacePoint()` method in `Tree`. Doris connected these methods to the birds’ movement and timing.
 
 ### 3.2 Perlin Noise Mechanic
 
@@ -114,14 +116,24 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ## 4. AI Acknowledgement
 
-**NAME:**「Dawn Zhang」 - I used ChatGPT to help generate the initial code for the following parts of `perlin-layer.js`. The relevant sections are acknowledged in code comments.
+We used ChatGPT for code suggestions, debugging, explanations of programming concepts and improvements to our documentation. We adapted the suggestions to our project.
+
+### Dawn Zhang: Perlin Noise and Scenery
+I used ChatGPT to help generate the initial code for the following parts of `perlin-layer.js`. The relevant sections are acknowledged in code comments.
 
 - **Tree and cloud movement** — `moveTrees()` and `moveClouds()` use train speed and elapsed time to scroll objects, add new ones on the right, and remove those leaving the left edge.
 - **Mountain movement** — `moveMountain()` shifts the ridge and replaces old height samples with new noise values.
 - **Six house styles** — The `House` drawing methods combine basic shapes, reusable doors and windows, and loops for repeated details.
 - **Village placement and movement** — `findFlatSpot()` selects relatively flat, sufficiently spaced sites. `moveVillages()` keeps villages moving with the mountain and adds replacements when suitable sites are available.
 
+### Doris Yu: Time-Based Mechanic
+I used ChatGPT to assist with timing logic, bird animation and debugging in `time-based.js` and the related integration code in `sketch.js`. I adapted the suggestions to the project and tested the behaviour.
+
+Individual counters track waiting and resting time, while states control the birds’ arrival, perching and departure. During arrival, a sine wave adds gentle vertical movement, with its height gradually decreasing near the landing point. The relevant AI-assisted sections are acknowledged in code comments.
+
 ## 5. External References
+Turner, J. M. W. (1844). rain, steam, and speed — The Great Western Railway [Graphic]. The National Gallery ( London). https://www.nationalgallery.org.uk/paintings/joseph-mallord-william-turner-rain-steam-and-speed-the-great-western-railway
+- The painting’s blurred scenery and sense of movement inspired our exploration of speed, time and attention.
 
 ### Project inspiration and course material
 
@@ -165,9 +177,3 @@ In `perlin-layer.js`, `Tree.drawBranch()` uses the branch-angle idea described o
 7. Observe how the landscape, blur and sounds respond to the train's movement.
 
 Audio is enabled when you first use the slider or the keyboard controls listed above.
-
-//
-1. Open the project in a browser.
-2. Use the left and right arrow keys to adjust the train speed.
-3. Press the spacebar to stop the train.
-4. Observe how the landscape, birds, and audio respond to the train's movement.
