@@ -115,6 +115,7 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 ## 4. AI Acknowledgement
 
 We used ChatGPT for code suggestions, debugging, explanations of programming concepts and improvements to our documentation. We adapted the suggestions to our project.
+The train sound MP3 file was generated with the assistance of AI.
 
 ### Dawn Zhang: Perlin Noise and Scenery
 I used ChatGPT to help generate the initial code for the following parts of `perlin-layer.js`. The relevant sections are acknowledged in code comments.
@@ -136,7 +137,6 @@ Individual counters track waiting and resting time, while states control the bir
 - [J. M. W. Turner, *Rain, Steam, and Speed – The Great Western Railway* (1844), The National Gallery](https://www.nationalgallery.org.uk/paintings/joseph-mallord-william-turner-rain-steam-and-speed-the-great-western-railway) — Turner's approaching train and blurred landscape inspired us to move the viewpoint inside the carriage and let the viewer slow down to notice details outside.
 - [The Coding Train, *Introduction to Perlin Noise and p5.js*](https://www.youtube.com/watch?v=Qf4dIN99e2w) — Our IDEA9103 Week 8 slides link to this introduction on slide 48. Slide 57 suggests using noise to vary branch angles. In `Tree.drawBranch()`, each branch samples a noise value and maps it to an angle before drawing its two children.
 - [siz0frena. (2025, April 3). Natural bird chirping [Sound effect]. Pixabay.] https://pixabay.com/sound-effects/nature-natural-bird-chirping-322497/
-- kokoreli777. (2023, October 3). Inside old train [Sound effect]. Pixabay. https://pixabay.com/sound-effects/film-special-effects-inside-old-train-169418/
 
 
 ### Technical references for the presentation
