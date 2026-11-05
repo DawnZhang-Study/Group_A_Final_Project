@@ -40,7 +40,7 @@ Our project consists of four main mechanics, each developed by a different team 
 
 ### 3.1 Time-Based Mechanic
 
-**Responsible Member:** [Doris Yu]
+**Responsible Member:** [Doris Yu]  
 **Main file:** `time-based.js`
 
 **Description:**
@@ -56,7 +56,7 @@ The tree-selection method `TimeBird.getBirdLandingTree()` and the branch landing
 
 ### 3.2 Perlin Noise Mechanic
 
-**Responsible Member:** [Dawn Zhang-czha6349]
+**Responsible Member:** [Dawn Zhang-czha6349]   
 **Main File:** `perlin-layer.js`
 
 **Description:**
@@ -87,7 +87,8 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ### 3.3 User-Input Mechanic
 
-**Responsible Member:** [Name]
+**Responsible Member:** [Name]  
+**Main file:** `file.js`
 
 **Description:**
 - Allows users to control the train's speed through keyboard input.
@@ -95,7 +96,7 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ### 3.4 Audio Mechanic
 
-**Responsible Member:**[Jiachen Sun]  
+**Responsible Member:**[Jiachen Sun]    
 **Main file:** `audio-mechanic.js`
 
 **Description:**
