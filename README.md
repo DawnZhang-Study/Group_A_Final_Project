@@ -124,6 +124,23 @@ This mechanic gives viewers control over their viewing pace. Faster travel makes
 - Stops the bird sound when the train restarts or when the bird event finishes.
 - Enables audio after the viewer first uses the speed slider or keyboard controls, following browser audio-playback restrictions without requiring a separate audio button.
 
+### 3.5 How the Mechanics Connect
+
+`sketch.js` links the four mechanics. It declares the shared variable `trainSpeed`, and `draw()` passes this value to each mechanic every frame.
+
+**`trainSpeed` connects all four mechanics:**
+- **User input sets it.** The slider and keyboard call `SpeedController.setSpeed()`, which limits the value to 0–100 and multiplies it by `SPEED_SCALE` (10). `trainSpeed` therefore ranges from 0 to 1000 pixels per second.
+- **Scenery moves with it.** Each layer multiplies `trainSpeed` by its own speed ratio: clouds 0.05, mountains 0.2, houses 0.55 and trees 0.8. Villages follow the mountain's speed.
+- **Blur grows with it.** `SpeedBlur.update()` converts the speed into blur strength, and `TrainWindow.drawTrainWindow()` applies the blur after drawing the scene and before drawing the frame.
+- **Train sound follows it.** `AudioMechanic.updateTrainAudio()` maps the speed to a playback rate from 0.6 to 1.8.
+- **Birds depend on it.** `countEventTime()` only counts while `trainSpeed` is 0, and `draw()` resets the birds whenever it is above 0.
+
+**Other links between mechanics:**
+- **Scenery → Time:** `getBirdLandingTree()` chooses a visible tree from the recorded branch positions, and `Tree.getBirdLandPlacePoint()` provides the landing points.
+- **Time → Audio:** `updateBirdAudio()` reads each bird's state, so the chirping plays only while birds are flying in, perching or flying out.
+- **User input → Audio:** The slider and keyboard handlers call `startAudio()`, which enables sound after the viewer's first interaction.
+
+As a result, setting the speed to 0 changes everything together: the scenery stops, the blur clears, the train sound stops and the bird event begins.
 
 ## 4. AI Acknowledgement
 
