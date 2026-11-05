@@ -114,8 +114,7 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ## 4. AI Acknowledgement
 
-**NAME:**「Dawn Zhang」
-I used ChatGPT to help generate the initial code for the following parts of `perlin-layer.js`. The relevant sections are acknowledged in code comments.
+**NAME:**「Dawn Zhang」 - I used ChatGPT to help generate the initial code for the following parts of `perlin-layer.js`. The relevant sections are acknowledged in code comments.
 
 - **Tree and cloud movement** — `moveTrees()` and `moveClouds()` use train speed and elapsed time to scroll objects, add new ones on the right, and remove those leaving the left edge.
 - **Mountain movement** — `moveMountain()` shifts the ridge and replaces old height samples with new noise values.
