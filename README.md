@@ -125,16 +125,37 @@ Include comments in the relevant JavaScript files to identify AI-assisted code.
 
 ## 5. External References
 
-**References:**
+### Project inspiration and course material
 
-List any external resources, tutorials, documentation, or code examples used in the project.
+- [J. M. W. Turner, *Rain, Steam, and Speed – The Great Western Railway* (1844), The National Gallery](https://www.nationalgallery.org.uk/paintings/joseph-mallord-william-turner-rain-steam-and-speed-the-great-western-railway) — Turner's approaching train and blurred landscape inspired us to move the viewpoint inside the carriage and let the viewer slow down to notice details outside.
+- [The Coding Train, *Introduction to Perlin Noise and p5.js*](https://www.youtube.com/watch?v=Qf4dIN99e2w) — Our IDEA9103 Week 8 slides link to this introduction on slide 48. Slide 57 suggests using noise to vary branch angles. In `Tree.drawBranch()`, each branch samples a noise value and maps it to an angle before drawing its two children.
 
-**Format:**
-- [Source Name](URL) — Brief explanation of how it influenced the project.
+### Technical references for the presentation
 
-**Code Acknowledgement:**
+We collected the following examples when preparing to explain how the finished sketch works.
 
-Add source references as comments in the relevant JavaScript files.
+- [The Coding Train, *Recursive Fractal Trees*](https://thecodingtrain.com/challenges/14-fractal-trees-recursive) — Shows how to draw two shorter branches from the same fork using recursion, `push()` and `pop()`. Our `Tree.drawBranch()` also records the tip of each branch so birds have landing positions. [Runnable tree example](https://editor.p5js.org/codingtrain/sketches/xTjmYXU3q)
+- [The Coding Train, *Graphing 1D Perlin Noise*](https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/graphing-1d-perlin-noise) — Shows why neighbouring noise samples form a smooth profile. In our sketch, `Mountain.addMountainVertex()` advances the sample position by 0.04, and `drawMountain()` connects the resulting heights into a ridge. [Runnable noise graph](https://editor.p5js.org/codingtrain/sketches/EZeHXBhei)
+- [The Coding Train, *Polar Noise Loops*](https://thecodingtrain.com/tracks/noise/136-polar-noise-loops) — Demonstrates sampling noise around a circle to vary its radius. Our `Cloud` constructor stretches this outline horizontally and compresses it vertically to form a cloud.
+- [p5.js, `lerp()`](https://p5js.org/reference/p5/lerp/) — Explains how to interpolate between two values. `Village.getMountainY()` interpolates between neighbouring ridge heights to place each building on the slope.
+- [p5.js, `clip()`](https://p5js.org/reference/p5/clip/) — Documents the mask used in `TrainWindow.drawTrainWindow()` to keep the scenery inside the rounded window.
+- [Godot Engine, *2D Parallax*](https://docs.godotengine.org/en/4.3/tutorials/2d/2d_parallax.html) — Illustrates why layers moving at different speeds suggest depth. In our p5.js scene, distant mountains move more slowly than the trees.
+
+### Visual comparisons for the presentation
+
+These images illustrate features of the finished drawings. The function names point to the corresponding details in `perlin-layer.js`.
+
+- [Roelandt Savery, *Study of a Tree*, The Metropolitan Museum of Art](https://www.metmuseum.org/art/collection/search/337841) — Follow a limb as it divides into finer branches. In `drawBranch()`, shorter branches are drawn with thinner strokes.
+- [Shakespeare Birthplace Trust, *Anne Hathaway's Cottage*](https://www.shakespeare.org.uk/visit/anne-hathaways-cottage/) — The pitched roof and chimney provide a comparison for the triangles and rectangles in `drawCottage()`.
+- [Skansen, *The Bookbinder’s Workshop*](https://www.skansen.se/en/see-and-do/open-air-museum/houses-and-farmsteads/the-bookbinders-workshop/) — The vertical timber cladding helps explain the repeated vertical lines in `drawNordicHouse()`.
+- [National Trust for Historic Preservation, *The Past, Present, and Future of Farnsworth House*](https://savingplaces.org/stories/the-past-present-future-of-farnsworth-house) — The exterior photographs show the horizontal roofline and broad glass panels echoed by the rectangles in `drawModernHouse()`.
+- [Friends of the Japanese House and Garden, *Shofuso roof*](https://commons.wikimedia.org/wiki/File:Shofuso_roof.jpg) — The photograph shows how far the eaves project beyond the wall, a detail represented by the wide roof in `drawJapaneseHouse()`.
+- [Rafael Maggion, photograph of a red-and-white restaurant awning in Paris](https://unsplash.com/photos/a-red-and-white-awning-over-a-restaurant-on-a-city-street-4KeduH-9kKg) — A visual comparison for the eight alternating red and cream panels across the café front in `drawShop()`.
+- [Bauhaus Kooperation, *Houses with Balcony Access*](https://bauhauskooperation.de/en/reisen/orte/ortsdetailseite/ort-22) — The repeating windows across storeys provide a comparison for the three-by-three window grid in `drawApartment()`.
+
+**Code Acknowledgement**
+
+In `perlin-layer.js`, `Tree.drawBranch()` uses the branch-angle idea described on slide 57 of the IDEA9103 Week 8 lecture. It also records the end of each branch so the birds can perch on the drawn tree. In `sketch.js`, `TrainWindow.drawTrainWindow()` uses the p5.js clipping API to draw the landscape inside a rounded window.
 
 ## 6. Interaction Instructions
 1. Drag the slider to change the train speed from 0 to 100.
