@@ -153,7 +153,7 @@ These images illustrate features of the finished drawings. The function names po
 
 **Code Acknowledgement**
 
-In `perlin-layer.js`, `Tree.drawBranch()` uses the branch-angle idea described on slide 57 of the IDEA9103 Week 8 lecture. It also records the end of each branch so the birds can perch on the drawn tree. In `sketch.js`, `TrainWindow.drawTrainWindow()` uses the p5.js clipping API to draw the landscape inside a rounded window.
+In `perlin-layer.js`, `Tree.drawBranch()` uses the branch-angle idea described on slide 57 of the IDEA9103 Week 8 lecture. It also records the end of each branch so the birds can perch on the drawn tree. In `sketch.js`, `TrainWindow.drawTrainWindow()` uses the p5.js clipping API to draw the landscape inside a rounded window.All these code comment in the these `.js` files.
 
 ## 6. Interaction Instructions
 1. Drag the slider to change the train speed from 0 to 100.
