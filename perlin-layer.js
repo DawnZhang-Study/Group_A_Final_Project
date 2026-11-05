@@ -28,6 +28,7 @@ class Tree{
         pop();
     }
 
+    // Technique reference: https://thecodingtrain.com/challenges/14-fractal-trees-recursive
     drawBranch(length, branchID,level, startX, startY, totalAngle){
         // Base case: if the branch length is too small, stop drawing
         if (length < 10) {
@@ -115,6 +116,7 @@ class Tree{
         return selectedPoints;
     }
 
+    // this code was generated with the help of ChatGPT and move the trees based on the train speed and delta time
     static moveTrees(trees,trainSpeed, dt, sceneWidth,treeSlotWidth){        
         if (trees.length == 0 || treeSlotWidth <= 0) {
             return;
@@ -169,6 +171,7 @@ class Mountain{
         }
     }
 
+    // Technique reference: https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/graphing-1d-perlin-noise
     addMountainVertex() {
         // Sample Perlin noise to get a value between 0 and 1
         const noiseValue = noise(this.noiseOffset + this.noiseIndex * this.mountainPerlinNoiseStep);
@@ -176,6 +179,7 @@ class Mountain{
         this.noiseIndex++;
     }
 
+    // Technique reference: https://thecodingtrain.com/tracks/the-nature-of-code-2/noc/perlin/graphing-1d-perlin-noise
     drawMountain(sceneWidth, sceneHeight) {
         const mountainSlotWidth = sceneWidth / (this.mountainVertexCount - 1);
         
@@ -206,6 +210,7 @@ class Mountain{
         pop();
     }
 
+    // this code was generated with the help of ChatGPT and move the mountain based on the train speed and delta time
     moveMountain(trainSpeed, dt, sceneWidth){ 
         if(sceneWidth <= 0){
             return;
@@ -226,6 +231,7 @@ class Mountain{
 }
 
 class Cloud{
+    // Technique reference: https://thecodingtrain.com/tracks/noise/136-polar-noise-loops
     constructor(xPos,yPos,speedRatio = 0.01,minScale = 0.7,maxScale = 1.3) {
         this.cloudPoints = [];
         this.centerX = xPos;
@@ -274,6 +280,7 @@ class Cloud{
         pop();
     }
 
+    // this code was generated with the help of ChatGPT and move the clouds based on the train speed and delta time
     static moveClouds(clouds,trainSpeed, dt, sceneWidth,cloudSlotWidth) {
         if (clouds.length == 0 || cloudSlotWidth <= 0) {
             return;
@@ -388,6 +395,7 @@ class House {
         circle(x + w - 7, -h / 2, 4);
     }
 
+    //this code was generated with the help of ChatGPT and create 6 different house types for the village scene.
     // 01 Classic cottage
     drawCottage() {
         const w = this.w;
@@ -747,6 +755,7 @@ class Village {
         );
     }
 
+    // Technique reference: https://p5js.org/reference/p5/lerp/
     // Get mountain height at a specific x position
     static getMountainY(x, mountainPoints) {
         for (let i = 0; i < mountainPoints.length - 1; i++) {
@@ -795,7 +804,7 @@ class Village {
         pop();
     }
 
-    // Search for a flat mountain area
+    // this code was generated with the help of ChatGPT and search for a flat mountain area
     static findFlatSpot(
         mountainPoints,
         length,
@@ -902,6 +911,7 @@ class Village {
         return selected.x;
     }
 
+    // this code was generated with the help of ChatGPT and move the villages based on the train speed and delta time
     // Move villages at the same speed as the mountain
     static moveVillages(
         villages,

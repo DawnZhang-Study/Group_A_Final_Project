@@ -16,7 +16,9 @@ Our project combines p5.js drawing, animation, interaction and audio to create t
 
 ### 2.1 Time-Based Mechanic
 
-We use JavaScript's `setInterval()` and state management to organise the birds' arrival, rest and departure. Staggered waiting times encourage viewers to stop and observe. In p5.js, `deltaTime` supports consistent horizontal movement, while `sin()` and `map()` create a flight path that becomes gentler near landing. Birds are drawn with `ellipse()`, `circle()` and `triangle()`, and their landing positions come from recorded tree-branch coordinates.
+We use JavaScript's `setInterval()` and individual counters to control the birds' waiting and resting times. Each bird moves through a sequence of states: waiting, flying in, perching, flying out and finished. Different waiting times make the three birds arrive one after another, encouraging viewers to stop and observe.
+
+In p5.js, `deltaTime` supports consistent horizontal movement. During arrival, `sin()` and `map()` add gentle vertical waves that become smaller near the landing point. Each bird has a randomly chosen wave height. Birds are drawn with `ellipse()`, `circle()` and `triangle()` with moving wings during flight and folded wings while resting. Saved tree-branch coordinates connect the birds to their landing positions.
 
 ### 2.2 Perlin Noise and Scenery Mechanic
 
@@ -40,23 +42,23 @@ Our project consists of four main mechanics, each developed by a different team 
 
 ### 3.1 Time-Based Mechanic
 
-**Responsible Member:** [Doris Yu]
-**Main file:** `time-based.js`
+**Responsible Member:** [Doris Yu - ziyu0781]
+**Main file:** `time-based.js`, with integration code in `sketch.js`
 
 **Description:**
 - Creates three TimeBird objects with different waiting times.
 - Uses a timer and individual counters to control waiting and resting.
 - Controls the sequence: waiting, flying in, perching, flying out and finished.
 - Draws the birds using basic shapes and animates their wings during flight.
-- Adds gentle vertical waves during arrival, with a randomly chosen wave height for each bird.
+- Adds gentle vertical waves during arrival, with a randomly chosen wave height for each bird. The waves gradually become smaller near the landing point.
 - Connects bird movement to saved landing positions provided by the scenery mechanic.
 - Resets the bird events when the train starts moving again.
 
-The tree-selection method `TimeBird.getBirdLandingTree()` and the branch landing-point method `Tree.getBirdLandPlacePoint()` were contributed by Dawn Zhang.
+Doris implemented `getBirdLandingTree()` using the branch-position data recorded by Dawn Zhang’s scenery code. Dawn provided `Tree.getBirdLandPlacePoint()` to select random branch landing positions. Doris connected these positions to the birds’ movement and timing.
 
 ### 3.2 Perlin Noise Mechanic
 
-**Responsible Member:** [Dawn Zhang-czha6349]
+**Responsible Member:** [Dawn Zhang-czha6349]   
 **Main File:** `perlin-layer.js`
 
 **Description:**
@@ -87,7 +89,8 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ### 3.3 User-Input Mechanic
 
-**Responsible Member:** [Name]
+**Responsible Member:** [Name]  
+**Main file:** `file.js`
 
 **Description:**
 - Allows users to control the train's speed through keyboard input.
@@ -95,7 +98,7 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 ### 3.4 Audio Mechanic
 
-**Responsible Member:**[Jiachen Sun]  
+**Responsible Member:**[Jiachen Sun]    
 **Main file:** `audio-mechanic.js`
 
 **Description:**
@@ -108,20 +111,23 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 - Stops the bird sound when the train restarts or when the bird event finishes.
 - Enables audio after the viewer first uses the speed slider or keyboard controls, following browser audio-playback restrictions without requiring a separate audio button.
 
-    
-16:41
 
 ## 4. AI Acknowledgement
 
-**AI Tools Used:** [ChatGPT / Other AI Tools]
+We used ChatGPT for code suggestions, debugging, explanations of programming concepts and improvements to our documentation. We adapted the suggestions to our project.
 
-**Purpose:**
+### Dawn Zhang: Perlin Noise and Scenery
+I used ChatGPT to help generate the initial code for the following parts of `perlin-layer.js`. The relevant sections are acknowledged in code comments.
 
-Explain how AI tools assisted with code development, debugging, or understanding programming concepts.
+- **Tree and cloud movement** — `moveTrees()` and `moveClouds()` use train speed and elapsed time to scroll objects, add new ones on the right, and remove those leaving the left edge.
+- **Mountain movement** — `moveMountain()` shifts the ridge and replaces old height samples with new noise values.
+- **Six house styles** — The `House` drawing methods combine basic shapes, reusable doors and windows, and loops for repeated details.
+- **Village placement and movement** — `findFlatSpot()` selects relatively flat, sufficiently spaced sites. `moveVillages()` keeps villages moving with the mountain and adds replacements when suitable sites are available.
 
-**Code Acknowledgement:**
+### Doris Yu: Time-Based Mechanic
+I used ChatGPT to assist with timing logic, bird animation and debugging in `time-based.js` and the related integration code in `sketch.js`. I adapted the suggestions to the project and tested the behaviour.
 
-Include comments in the relevant JavaScript files to identify AI-assisted code.
+Individual counters track waiting and resting time, while states control the birds’ arrival, perching and departure. During arrival, a sine wave adds gentle vertical movement, with its height gradually decreasing near the landing point. The relevant techniques and sources are also acknowledged in comments in the corresponding JavaScript files.
 
 ## 5. External References
 
@@ -159,7 +165,7 @@ These images illustrate features of the finished drawings. The function names po
 
 **Code Acknowledgement**
 
-In `perlin-layer.js`, `Tree.drawBranch()` uses the branch-angle idea described on slide 57 of the IDEA9103 Week 8 lecture. It also records the end of each branch so the birds can perch on the drawn tree. In `sketch.js`, `TrainWindow.drawTrainWindow()` uses the p5.js clipping API to draw the landscape inside a rounded window.
+In `perlin-layer.js`, `Tree.drawBranch()` uses the branch-angle idea described on slide 57 of the IDEA9103 Week 8 lecture. It also records the end of each branch so the birds can perch on the drawn tree. In `sketch.js`, `TrainWindow.drawTrainWindow()` uses the p5.js clipping API to draw the landscape inside a rounded window.All these code comment in the these `.js` files.
 
 ## 6. Interaction Instructions
 1. Drag the slider to change the train speed from 0 to 100.
@@ -171,9 +177,3 @@ In `perlin-layer.js`, `Tree.drawBranch()` uses the branch-angle idea described o
 7. Observe how the landscape, blur and sounds respond to the train's movement.
 
 Audio is enabled when you first use the slider or the keyboard controls listed above.
-
-//
-1. Open the project in a browser.
-2. Use the left and right arrow keys to adjust the train speed.
-3. Press the spacebar to stop the train.
-4. Observe how the landscape, birds, and audio respond to the train's movement.

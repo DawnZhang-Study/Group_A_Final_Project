@@ -1,4 +1,9 @@
-// This class stores one bird's position and draws a simple placeholder.
+// AI acknowledgement: Developed with assistance from ChatGPT.
+// Helped with timing logic, bird animation and debugging.
+// Suggestions were adapted and tested by Doris Yu.
+// Counters track waiting and resting time, while states control each stage of the bird event.
+
+// Store and control one bird's position, timing, state and appearance.
 class TimeBird {
 // waitTicks = 20: When not specified otherwise, it defaults to waiting for 20 counts, approximately two seconds.
  constructor(x, y, waitTicks = 20) {
@@ -19,6 +24,8 @@ class TimeBird {
     this.wingSpeed = 2;
   } 
   
+    // Uses branch-position data recorded by Dawn Zhang's Tree class(from Perlin-layer)
+    // to identify visible trees and select one by counting from the right.
   getBirdLandingTree(trees, sceneWidth, treeFromRight) {
     // Require a positive integer.
     if (!Number.isInteger(treeFromRight) || treeFromRight < 1) {
@@ -59,7 +66,7 @@ class TimeBird {
       this.reset();
     }
 
-    // Start flying after about two seconds.
+    // Start flying after this bird's waiting time.
     else if (this.state === "waiting") {
       if (this.stageTicks >= this.waitTicks) {
         this.state = "flyingIn";
