@@ -4,7 +4,13 @@ const SPEED_SCALE = 10;
 let speedController;
 
 
-// Manage the slider, speed display and keyboard input.
+// Manages the slider, speed display, keyboard input and held-key repeat.
+// Adapted to the group's shared trainSpeed and audio interfaces.
+//
+// Technique references:
+// https://p5js.org/reference/p5/createSlider/
+// https://p5js.org/reference/p5/keyIsDown/
+
 class SpeedController {
   constructor(initialValue = 50) {
     this.value = initialValue;
@@ -136,6 +142,15 @@ function setTrainSpeed(value) {
 
 
 // Manage speed-based blur inside the train window.
+// Applies speed-based blur to the window interior,
+// with small random variations smoothed using lerp().
+
+// Technique references:
+// https://p5js.org/reference/p5/get/
+// https://p5js.org/reference/p5.Image/filter/
+// https://p5js.org/reference/p5/random/
+// https://p5js.org/reference/p5/lerp/
+
 class SpeedBlur {
   constructor(maximumTrainSpeed = 1000) {
     this.maximumTrainSpeed = maximumTrainSpeed;
