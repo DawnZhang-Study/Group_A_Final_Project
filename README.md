@@ -146,6 +146,9 @@ Individual counters track waiting and resting time, while states control the bir
 ### Xinyu Chen: User Input and Speed Blur
 I used ChatGPT to help generate the `SpeedController` and `SpeedBlur` classes in `user_input.js`, their integration in `sketch.js`, and the control-panel styles in `style.css`. It also helped explain the programming concepts and debug the implementation. I adapted the suggestions to our group's shared speed and audio interfaces.
 
+### Jiachen Sun: Audio Mechanic
+The train sound MP3 file, `inside-old-train.mp3`, was generated with the assistance of AI.
+
 `SpeedController` reads mouse and keyboard input, limits the interface value to 0–100, converts it to the shared pixel speed, and synchronises the slider and display. A countdown controls repeated adjustments while an arrow key is held.
 
 `SpeedBlur` calculates blur from the shared speed. It selects small random variations and gradually approaches them using `lerp()`. It captures and blurs the window interior before the frame is drawn, and skips the effect when the train stops.
