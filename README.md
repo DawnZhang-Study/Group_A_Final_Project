@@ -56,6 +56,13 @@ Our project consists of four main mechanics, each developed by a different team 
 
 Doris implemented `getBirdLandingTree()` using the branch-position data recorded by Dawn Zhang’s scenery code. Dawn provided `Tree.getBirdLandPlacePoint()` to select random branch landing positions. Doris connected these positions to the birds’ movement and timing.
 
+**Classes and Main Functions:**
+
+- `TimeBird` stores each bird’s position, waiting time and state. `update()` moves the bird and switches between waiting, flying in, perching and flying out. `display()` draws the bird and animates its wings, while `reset()` prepares it for the next stop.
+- `countEventTime()` updates each bird’s counter while the train is stopped and the bird is waiting or perching.
+- In `sketch.js`, the bird loop pairs each bird with a saved landing point and adds vertical movement as it flies in.
+
+
 ### 3.2 Perlin Noise Mechanic
 
 **Responsible Member:** [Dawn Zhang-czha6349]   
