@@ -76,13 +76,25 @@ Creates the scenery outside the train window, including trees, mountains, clouds
 
 - **`Tree`** — Creates branching trees. `drawTree()` draws each tree, and `drawBranch()` recursively generates smaller branches with angles controlled by Perlin noise. Branch positions are recorded, and `getBirdLandPlacePoint()` selects landing points for the bird mechanic.
 
+![Tree 1](assets/Tree_1.png)
+
+![Tree 2](assets/Tree_2.png)
+
 - **`Mountain`** — Creates a continuous mountain landscape. `addMountainVertex()` samples Perlin noise to generate ridge heights, while `drawMountain()` draws the mountain and records its ridge positions. `moveMountain()` scrolls the landscape and adds new points as it moves.
+
+!
 
 - **`Cloud`** — Creates clouds with varied sizes and outlines. The constructor uses Perlin noise to generate the outline points, and `drawCloud()` draws the resulting shape.
 
+![Cloud](assets/Cloud.png)
+
 - **`House`** — Adds six different building styles using basic shapes. `drawHouse()` selects the appropriate style, while shared functions such as `drawWall()`, `drawWindow()` and `drawDoor()` draw reusable details.
 
+![House](assets/House.png)
+
 - **`Village`** — Creates small groups of buildings and trees along the mountain ridge. `findFlatSpot()` finds relatively flat areas with enough spacing, `getMountainY()` calculates the ridge height at a given position, and `drawVillage()` places the objects along the terrain.
+
+![Village](assets/village.png)
 
 **Bird Landing Selection:**
 
