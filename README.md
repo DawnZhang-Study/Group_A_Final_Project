@@ -9,7 +9,7 @@ The painting’s blurred landscape and strong sense of movement inspired our que
 We move the viewpoint inside the train, allowing viewers to look out the window at the scenery and control the train’s speed. Slowing down makes the scenery easier to observe. Stopping and staying gives viewers time to observe a small event: birds arriving, resting on branches, and flying away.
 
 Through this experience, we explore the relationship between speed, time and attention.
-![Train](assets/Train.png)
+![Train](assets/Train.jpg)
 
 **Finial project screenshot**   
 !
