@@ -85,19 +85,23 @@ class Tree{
     }
 
     getBirdLandPlacePoint(count = 3){
+        // Validate the count parameter
         if (!Number.isInteger(count) || count <= 0) {
             return [];
         }
 
+        // Convert the branchPoints object to an array of points
         const points = Object.values(this.branchPoints);
         
         if(points.length ==0){
             return [];
         }
 
+        // Find the maximum level of branches
         const maxLevel = Math.max(
             ...points.map(point => point.level));
 
+        // Filter points that are within the last three levels
         const availablePoints = points.filter(point => 
             point.level >= maxLevel - 3 && 
             point.level <= maxLevel - 1 )
@@ -105,12 +109,15 @@ class Tree{
         const selectedPoints = [];
         const actualCount = Math.min(count, availablePoints.length);
 
+        // Randomly select points from the available points. ensure that the same point is not selected twice
         for (let i = 0; i < actualCount; i++) {
 
             const randomIndex = floor(random(availablePoints.length));
 
+            // Remove the selected point from availablePoints. And splice returns an array, so we take the first element
             const selectedPoint = availablePoints.splice(randomIndex, 1)[0];
 
+            // Add the selected point to the result array
             selectedPoints.push(selectedPoint);
         }
         return selectedPoints;
@@ -137,6 +144,7 @@ class Tree{
             const lastTree = trees[trees.length - 1];
             const newXPos = lastTree.xPos + treeSlotWidth;
 
+            // Create a new tree with the same speed ratio as the last tree and add it to the array
             trees.push(
             new Tree(newXPos, lastTree.speedRatio)
             );
@@ -217,9 +225,11 @@ class Mountain{
         }
         const mountainSlotWidth = sceneWidth / ( this.mountainVertexCount-1 );
 
+        // Move the mountain based on the train speed and delta time
         this.moveSpeed = trainSpeed * this.speedRatio;
         this.mountainOffset += this.moveSpeed * dt;
 
+        // remove over left window vertix, and add new vertix to the right.
         while (this.mountainOffset >= mountainSlotWidth) {
             this.mountainOffset -= mountainSlotWidth;
 
@@ -251,8 +261,12 @@ class Cloud{
 
 
         for (let angle = 0; angle < TWO_PI; angle += 0.1) {
-            let noiseValue = noise( this.noiseOffsetX + cos ( angle ) * 2, this.noiseOffsetY + sin ( angle ) * 2)
+            // Use Perlin noise to create a more natural cloud shape
+            let noiseValue = noise( 
+                this.noiseOffsetX + cos ( angle ) * 2, 
+                this.noiseOffsetY + sin ( angle ) * 2)
 
+            // Map the noise value to a radius for the cloud shape
             let radius = (60 + 60 * noiseValue) * this.sizeScale;
 
             let x = cos(angle) * radius * 1.5;
@@ -716,12 +730,12 @@ class Village {
         this.objects = [];
 
         // Generate buildings and trees only once
-        for (let x = 10; x < this.length - 10; x += random(18, 30)) {
+        for (let x = 10; x < this.length - 10; x += random(5, 20)) {
             this.objects.push({
                 x: x,
                 isTree: random() < 0.35,
-                width: random(15, 20),
-                height: random(5, 30)
+                width: random(5, 15),
+                height: random(5, 15)
             });
         }
     }
