@@ -11,8 +11,11 @@ We move the viewpoint inside the train, allowing viewers to look out the window 
 Through this experience, we explore the relationship between speed, time and attention.
 ![Train](assets/Train.jpg)
 
-**Finial project screenshot**   
-!
+**Finial project screenshot**    
+![screenshot](assets/screenshot.png)
+
+**Finial project GIF**  
+![project](assets/project.gif)
 
 ## 2. Techniques
 
