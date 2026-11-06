@@ -9,6 +9,10 @@ The painting’s blurred landscape and strong sense of movement inspired our que
 We move the viewpoint inside the train, allowing viewers to look out the window at the scenery and control the train’s speed. Slowing down makes the scenery easier to observe. Stopping and staying gives viewers time to observe a small event: birds arriving, resting on branches, and flying away.
 
 Through this experience, we explore the relationship between speed, time and attention.
+![Train](assets/Train.png)
+
+**Finial project screenshot**   
+!
 
 ## 2. Techniques
 
@@ -76,13 +80,11 @@ Creates the scenery outside the train window, including trees, mountains, clouds
 
 - **`Tree`** — Creates branching trees. `drawTree()` draws each tree, and `drawBranch()` recursively generates smaller branches with angles controlled by Perlin noise. Branch positions are recorded, and `getBirdLandPlacePoint()` selects landing points for the bird mechanic.
 
-![Tree 1](assets/Tree_1.png)
-
-![Tree 2](assets/Tree_2.png)
+![Tree 1](assets/Tree_1.png)    ![Tree 2](assets/Tree_2.png)
 
 - **`Mountain`** — Creates a continuous mountain landscape. `addMountainVertex()` samples Perlin noise to generate ridge heights, while `drawMountain()` draws the mountain and records its ridge positions. `moveMountain()` scrolls the landscape and adds new points as it moves.
 
-!
+![Mountain](assets/Mountain.png)
 
 - **`Cloud`** — Creates clouds with varied sizes and outlines. The constructor uses Perlin noise to generate the outline points, and `drawCloud()` draws the resulting shape.
 
@@ -110,6 +112,12 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 **Responsible Member:** [Xinyu Chen-xche9859]  
 **Main file:** `user_input.js`, with integration in `sketch.js` and interface styling in `style.css`.
+
+**Speed=0** 
+![Speed_0](assets/Speed_0.png)
+
+**Speed=100** 
+![Speed_100](assets/Speed_100.png)
 
 **Description:**
 - Allows users to control the train's speed through keyboard input.
