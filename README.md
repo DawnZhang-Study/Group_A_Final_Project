@@ -9,12 +9,14 @@ The painting’s blurred landscape and strong sense of movement inspired our que
 We move the viewpoint inside the train, allowing viewers to look out the window at the scenery and control the train’s speed. Slowing down makes the scenery easier to observe. Stopping and staying gives viewers time to observe a small event: birds arriving, resting on branches, and flying away.
 
 Through this experience, we explore the relationship between speed, time and attention.
+
+**[J. M. W. Turner, *Rain, Steam, and Speed – The Great Western Railway* (1844), The National Gallery](https://www.nationalgallery.org.uk/paintings/joseph-mallord-william-turner-rain-steam-and-speed-the-great-western-railway)**
 ![Train](assets/Train.jpg)
 
 **Finial project screenshot**    
 ![screenshot](assets/screenshot.png)
 
-**Finial project GIF**  
+**Finial project DEMO**  
 ![project](assets/project.gif)
 
 ## 2. Techniques
@@ -51,6 +53,9 @@ Our project consists of four main mechanics, each developed by a different team 
 
 **Responsible Member:** [Doris Yu - ziyu0781]
 **Main file:** `time-based.js`, with integration code in `sketch.js`
+
+**Bird Fly DEMO**
+![bird_fly](assets/bird_fly.gif)
 
 **Description:**
 - Creates three TimeBird objects with different waiting times.
@@ -121,6 +126,9 @@ Together with `Tree.getBirdLandPlacePoint()` in `perlin-layer.js`, this connects
 
 **Speed=100** 
 ![Speed_100](assets/Speed_100.png)
+
+**Holding arrow keys**
+![input](assets/input.gif)
 
 **Description:**
 - Allows users to control the train's speed through keyboard input.
